@@ -1063,23 +1063,26 @@ export interface ZkBingoLobby extends BaseContract {
     ): BingoEventFilter;
 
     "GameParticipated(uint256,address,uint256,uint8)"(
-      gameId?: null,
-      player?: null,
-      cardId?: null,
+      gameId?: PromiseOrValue<BigNumberish> | null,
+      player?: PromiseOrValue<string> | null,
+      cardId?: PromiseOrValue<BigNumberish> | null,
       position?: null
     ): GameParticipatedEventFilter;
     GameParticipated(
-      gameId?: null,
-      player?: null,
-      cardId?: null,
+      gameId?: PromiseOrValue<BigNumberish> | null,
+      player?: PromiseOrValue<string> | null,
+      cardId?: PromiseOrValue<BigNumberish> | null,
       position?: null
     ): GameParticipatedEventFilter;
 
     "GameStarted(uint256,address)"(
-      gameId?: null,
+      gameId?: PromiseOrValue<BigNumberish> | null,
       cardContract?: null
     ): GameStartedEventFilter;
-    GameStarted(gameId?: null, cardContract?: null): GameStartedEventFilter;
+    GameStarted(
+      gameId?: PromiseOrValue<BigNumberish> | null,
+      cardContract?: null
+    ): GameStartedEventFilter;
 
     "Initialized(uint8)"(version?: null): InitializedEventFilter;
     Initialized(version?: null): InitializedEventFilter;

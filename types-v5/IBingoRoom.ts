@@ -441,23 +441,26 @@ export interface IBingoRoom extends BaseContract {
     ): BingoEventFilter;
 
     "GameParticipated(uint256,address,uint256,uint8)"(
-      gameId?: null,
-      player?: null,
-      cardId?: null,
+      gameId?: PromiseOrValue<BigNumberish> | null,
+      player?: PromiseOrValue<string> | null,
+      cardId?: PromiseOrValue<BigNumberish> | null,
       position?: null
     ): GameParticipatedEventFilter;
     GameParticipated(
-      gameId?: null,
-      player?: null,
-      cardId?: null,
+      gameId?: PromiseOrValue<BigNumberish> | null,
+      player?: PromiseOrValue<string> | null,
+      cardId?: PromiseOrValue<BigNumberish> | null,
       position?: null
     ): GameParticipatedEventFilter;
 
     "GameStarted(uint256,address)"(
-      gameId?: null,
+      gameId?: PromiseOrValue<BigNumberish> | null,
       cardContract?: null
     ): GameStartedEventFilter;
-    GameStarted(gameId?: null, cardContract?: null): GameStartedEventFilter;
+    GameStarted(
+      gameId?: PromiseOrValue<BigNumberish> | null,
+      cardContract?: null
+    ): GameStartedEventFilter;
 
     "NumberSelected(uint256,uint32,address,uint8)"(
       gameId?: PromiseOrValue<BigNumberish> | null,
