@@ -57,18 +57,21 @@ export declare namespace IBingoRoom {
     winner: PromiseOrValue<string>;
     cardNumbers: PromiseOrValue<BigNumberish>[][];
     selectedNumbers: PromiseOrValue<BigNumberish>[];
+    players: IBingoRoom.ParticipantStruct[];
   };
 
   export type RecentGameStructOutput = [
     BigNumber,
     string,
     number[][],
-    number[]
+    number[],
+    IBingoRoom.ParticipantStructOutput[]
   ] & {
     gameId: BigNumber;
     winner: string;
     cardNumbers: number[][];
     selectedNumbers: number[];
+    players: IBingoRoom.ParticipantStructOutput[];
   };
 }
 
@@ -86,6 +89,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
     "getGameInfo(uint256)": FunctionFragment;
     "getLatestRound(uint256)": FunctionFragment;
     "getSelectedNumbers(uint256)": FunctionFragment;
+    "playedGames(address,uint256)": FunctionFragment;
     "recentGames(uint8)": FunctionFragment;
     "selectAndBingo(uint256,uint8,uint8[][],bytes)": FunctionFragment;
     "selectNumber(uint256,uint8)": FunctionFragment;
@@ -106,6 +110,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
       | "getGameInfo"
       | "getLatestRound"
       | "getSelectedNumbers"
+      | "playedGames"
       | "recentGames"
       | "selectAndBingo"
       | "selectNumber"
@@ -157,6 +162,10 @@ export interface BingoGameRoomInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getSelectedNumbers",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "playedGames",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "recentGames",
@@ -214,6 +223,10 @@ export interface BingoGameRoomInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getSelectedNumbers",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "playedGames",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -400,6 +413,16 @@ export interface BingoGameRoom extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[number[]] & { numbers: number[] }>;
 
+    playedGames(
+      user: PromiseOrValue<string>,
+      skip: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [IBingoRoom.RecentGameStructOutput[]] & {
+        games: IBingoRoom.RecentGameStructOutput[];
+      }
+    >;
+
     recentGames(
       filter: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -493,6 +516,12 @@ export interface BingoGameRoom extends BaseContract {
     overrides?: CallOverrides
   ): Promise<number[]>;
 
+  playedGames(
+    user: PromiseOrValue<string>,
+    skip: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<IBingoRoom.RecentGameStructOutput[]>;
+
   recentGames(
     filter: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -585,6 +614,12 @@ export interface BingoGameRoom extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number[]>;
+
+    playedGames(
+      user: PromiseOrValue<string>,
+      skip: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<IBingoRoom.RecentGameStructOutput[]>;
 
     recentGames(
       filter: PromiseOrValue<BigNumberish>,
@@ -715,6 +750,12 @@ export interface BingoGameRoom extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    playedGames(
+      user: PromiseOrValue<string>,
+      skip: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     recentGames(
       filter: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -778,6 +819,12 @@ export interface BingoGameRoom extends BaseContract {
 
     getSelectedNumbers(
       gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    playedGames(
+      user: PromiseOrValue<string>,
+      skip: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

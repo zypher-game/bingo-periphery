@@ -704,6 +704,69 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "skip",
+        type: "uint256",
+      },
+    ],
+    name: "playedGames",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "gameId",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "winner",
+            type: "address",
+          },
+          {
+            internalType: "uint8[][]",
+            name: "cardNumbers",
+            type: "uint8[][]",
+          },
+          {
+            internalType: "uint8[]",
+            name: "selectedNumbers",
+            type: "uint8[]",
+          },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "user",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "cardId",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct IBingoRoom.Participant[]",
+            name: "players",
+            type: "tuple[]",
+          },
+        ],
+        internalType: "struct IBingoRoom.RecentGame[]",
+        name: "games",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "proxiableUUID",
     outputs: [
@@ -747,6 +810,23 @@ const _abi = [
             internalType: "uint8[]",
             name: "selectedNumbers",
             type: "uint8[]",
+          },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "user",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "cardId",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct IBingoRoom.Participant[]",
+            name: "players",
+            type: "tuple[]",
           },
         ],
         internalType: "struct IBingoRoom.RecentGame[]",

@@ -50,18 +50,21 @@ export declare namespace IBingoRoom {
     winner: AddressLike;
     cardNumbers: BigNumberish[][];
     selectedNumbers: BigNumberish[];
+    players: IBingoRoom.ParticipantStruct[];
   };
 
   export type RecentGameStructOutput = [
     gameId: bigint,
     winner: string,
     cardNumbers: bigint[][],
-    selectedNumbers: bigint[]
+    selectedNumbers: bigint[],
+    players: IBingoRoom.ParticipantStructOutput[]
   ] & {
     gameId: bigint;
     winner: string;
     cardNumbers: bigint[][];
     selectedNumbers: bigint[];
+    players: IBingoRoom.ParticipantStructOutput[];
   };
 }
 
@@ -80,6 +83,7 @@ export interface BingoGameRoomInterface extends Interface {
       | "getGameInfo"
       | "getLatestRound"
       | "getSelectedNumbers"
+      | "playedGames"
       | "recentGames"
       | "selectAndBingo"
       | "selectNumber"
@@ -138,6 +142,10 @@ export interface BingoGameRoomInterface extends Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "playedGames",
+    values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "recentGames",
     values: [BigNumberish]
   ): string;
@@ -188,6 +196,10 @@ export interface BingoGameRoomInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getSelectedNumbers",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "playedGames",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -418,6 +430,12 @@ export interface BingoGameRoom extends BaseContract {
     "view"
   >;
 
+  playedGames: TypedContractMethod<
+    [user: AddressLike, skip: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput[]],
+    "view"
+  >;
+
   recentGames: TypedContractMethod<
     [filter: BigNumberish],
     [IBingoRoom.RecentGameStructOutput[]],
@@ -537,6 +555,13 @@ export interface BingoGameRoom extends BaseContract {
   getFunction(
     nameOrSignature: "getSelectedNumbers"
   ): TypedContractMethod<[gameId: BigNumberish], [bigint[]], "view">;
+  getFunction(
+    nameOrSignature: "playedGames"
+  ): TypedContractMethod<
+    [user: AddressLike, skip: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput[]],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "recentGames"
   ): TypedContractMethod<

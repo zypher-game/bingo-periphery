@@ -50,18 +50,21 @@ export declare namespace IBingoRoom {
     winner: AddressLike;
     cardNumbers: BigNumberish[][];
     selectedNumbers: BigNumberish[];
+    players: IBingoRoom.ParticipantStruct[];
   };
 
   export type RecentGameStructOutput = [
     gameId: bigint,
     winner: string,
     cardNumbers: bigint[][],
-    selectedNumbers: bigint[]
+    selectedNumbers: bigint[],
+    players: IBingoRoom.ParticipantStructOutput[]
   ] & {
     gameId: bigint;
     winner: string;
     cardNumbers: bigint[][];
     selectedNumbers: bigint[];
+    players: IBingoRoom.ParticipantStructOutput[];
   };
 }
 
@@ -103,6 +106,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "maxPlayers"
       | "minPlayers"
       | "owner"
+      | "playedGames"
       | "proxiableUUID"
       | "recentGames"
       | "renounceOwnership"
@@ -214,6 +218,10 @@ export interface ZkBingoLobbyInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "playedGames",
+    values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
   ): string;
@@ -320,6 +328,10 @@ export interface ZkBingoLobbyInterface extends Interface {
   decodeFunctionResult(functionFragment: "maxPlayers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "minPlayers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "playedGames",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
@@ -704,6 +716,12 @@ export interface ZkBingoLobby extends BaseContract {
 
   owner: TypedContractMethod<[], [string], "view">;
 
+  playedGames: TypedContractMethod<
+    [user: AddressLike, skip: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput[]],
+    "view"
+  >;
+
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
   recentGames: TypedContractMethod<
@@ -931,6 +949,13 @@ export interface ZkBingoLobby extends BaseContract {
   getFunction(
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "playedGames"
+  ): TypedContractMethod<
+    [user: AddressLike, skip: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput[]],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "proxiableUUID"
   ): TypedContractMethod<[], [string], "view">;

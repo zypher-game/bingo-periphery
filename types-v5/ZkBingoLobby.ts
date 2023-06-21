@@ -58,18 +58,21 @@ export declare namespace IBingoRoom {
     winner: PromiseOrValue<string>;
     cardNumbers: PromiseOrValue<BigNumberish>[][];
     selectedNumbers: PromiseOrValue<BigNumberish>[];
+    players: IBingoRoom.ParticipantStruct[];
   };
 
   export type RecentGameStructOutput = [
     BigNumber,
     string,
     number[][],
-    number[]
+    number[],
+    IBingoRoom.ParticipantStructOutput[]
   ] & {
     gameId: BigNumber;
     winner: string;
     cardNumbers: number[][];
     selectedNumbers: number[];
+    players: IBingoRoom.ParticipantStructOutput[];
   };
 }
 
@@ -110,6 +113,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "maxPlayers()": FunctionFragment;
     "minPlayers()": FunctionFragment;
     "owner()": FunctionFragment;
+    "playedGames(address,uint256)": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
     "recentGames(uint8)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -151,6 +155,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       | "maxPlayers"
       | "minPlayers"
       | "owner"
+      | "playedGames"
       | "proxiableUUID"
       | "recentGames"
       | "renounceOwnership"
@@ -252,6 +257,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "playedGames",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
@@ -368,6 +377,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "maxPlayers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "minPlayers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "playedGames",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
@@ -702,6 +715,16 @@ export interface ZkBingoLobby extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
+    playedGames(
+      user: PromiseOrValue<string>,
+      skip: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [IBingoRoom.RecentGameStructOutput[]] & {
+        games: IBingoRoom.RecentGameStructOutput[];
+      }
+    >;
+
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
     recentGames(
@@ -896,6 +919,12 @@ export interface ZkBingoLobby extends BaseContract {
 
   owner(overrides?: CallOverrides): Promise<string>;
 
+  playedGames(
+    user: PromiseOrValue<string>,
+    skip: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<IBingoRoom.RecentGameStructOutput[]>;
+
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
   recentGames(
@@ -1087,6 +1116,12 @@ export interface ZkBingoLobby extends BaseContract {
     minPlayers(overrides?: CallOverrides): Promise<number>;
 
     owner(overrides?: CallOverrides): Promise<string>;
+
+    playedGames(
+      user: PromiseOrValue<string>,
+      skip: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<IBingoRoom.RecentGameStructOutput[]>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
@@ -1351,6 +1386,12 @@ export interface ZkBingoLobby extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
+    playedGames(
+      user: PromiseOrValue<string>,
+      skip: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
 
     recentGames(
@@ -1499,6 +1540,12 @@ export interface ZkBingoLobby extends BaseContract {
     minPlayers(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    playedGames(
+      user: PromiseOrValue<string>,
+      skip: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
