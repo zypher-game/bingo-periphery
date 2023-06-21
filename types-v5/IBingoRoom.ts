@@ -51,6 +51,25 @@ export declare namespace IBingoRoom {
     timestamp: number;
     player: string;
   };
+
+  export type RecentGameStruct = {
+    gameId: PromiseOrValue<BigNumberish>;
+    winner: PromiseOrValue<string>;
+    cardNumbers: PromiseOrValue<BigNumberish>[][];
+    selectedNumbers: PromiseOrValue<BigNumberish>[];
+  };
+
+  export type RecentGameStructOutput = [
+    BigNumber,
+    string,
+    number[][],
+    number[]
+  ] & {
+    gameId: BigNumber;
+    winner: string;
+    cardNumbers: number[][];
+    selectedNumbers: number[];
+  };
 }
 
 export interface IBingoRoomInterface extends utils.Interface {
@@ -62,8 +81,10 @@ export interface IBingoRoomInterface extends utils.Interface {
     "getCurrentRound(uint256)": FunctionFragment;
     "getGameInfo(uint256)": FunctionFragment;
     "getSelectedNumbers(uint256)": FunctionFragment;
+    "recentGames(uint8)": FunctionFragment;
     "selectAndBingo(uint256,uint8,uint8[][],bytes)": FunctionFragment;
     "selectNumber(uint256,uint8)": FunctionFragment;
+    "summary()": FunctionFragment;
   };
 
   getFunction(
@@ -75,8 +96,10 @@ export interface IBingoRoomInterface extends utils.Interface {
       | "getCurrentRound"
       | "getGameInfo"
       | "getSelectedNumbers"
+      | "recentGames"
       | "selectAndBingo"
       | "selectNumber"
+      | "summary"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -106,6 +129,10 @@ export interface IBingoRoomInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "recentGames",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "selectAndBingo",
     values: [
       PromiseOrValue<BigNumberish>,
@@ -118,6 +145,7 @@ export interface IBingoRoomInterface extends utils.Interface {
     functionFragment: "selectNumber",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(functionFragment: "summary", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(
@@ -139,6 +167,10 @@ export interface IBingoRoomInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "recentGames",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "selectAndBingo",
     data: BytesLike
   ): Result;
@@ -146,18 +178,21 @@ export interface IBingoRoomInterface extends utils.Interface {
     functionFragment: "selectNumber",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
 
   events: {
     "Bingo(uint256,address,uint8[][])": EventFragment;
     "GameParticipated(uint256,address,uint256,uint8)": EventFragment;
     "GameStarted(uint256,address)": EventFragment;
     "NumberSelected(uint256,uint32,address,uint8)": EventFragment;
+    "RewardChanged(address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Bingo"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "GameParticipated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "GameStarted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NumberSelected"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RewardChanged"): EventFragment;
 }
 
 export interface BingoEventObject {
@@ -209,6 +244,17 @@ export type NumberSelectedEvent = TypedEvent<
 >;
 
 export type NumberSelectedEventFilter = TypedEventFilter<NumberSelectedEvent>;
+
+export interface RewardChangedEventObject {
+  newReward: string;
+  oldReward: string;
+}
+export type RewardChangedEvent = TypedEvent<
+  [string, string],
+  RewardChangedEventObject
+>;
+
+export type RewardChangedEventFilter = TypedEventFilter<RewardChangedEvent>;
 
 export interface IBingoRoom extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -287,6 +333,15 @@ export interface IBingoRoom extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[number[]]>;
 
+    recentGames(
+      filter: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [IBingoRoom.RecentGameStructOutput[]] & {
+        games: IBingoRoom.RecentGameStructOutput[];
+      }
+    >;
+
     selectAndBingo(
       gameId: PromiseOrValue<BigNumberish>,
       number: PromiseOrValue<BigNumberish>,
@@ -300,6 +355,16 @@ export interface IBingoRoom extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    summary(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        totalGameStarted: BigNumber;
+        totalPlayersJoined: BigNumber;
+        totalRewardDistributed: BigNumber;
+      }
+    >;
   };
 
   bingo(
@@ -348,6 +413,11 @@ export interface IBingoRoom extends BaseContract {
     overrides?: CallOverrides
   ): Promise<number[]>;
 
+  recentGames(
+    filter: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<IBingoRoom.RecentGameStructOutput[]>;
+
   selectAndBingo(
     gameId: PromiseOrValue<BigNumberish>,
     number: PromiseOrValue<BigNumberish>,
@@ -361,6 +431,16 @@ export interface IBingoRoom extends BaseContract {
     number: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  summary(
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber] & {
+      totalGameStarted: BigNumber;
+      totalPlayersJoined: BigNumber;
+      totalRewardDistributed: BigNumber;
+    }
+  >;
 
   callStatic: {
     bingo(
@@ -413,6 +493,11 @@ export interface IBingoRoom extends BaseContract {
       overrides?: CallOverrides
     ): Promise<number[]>;
 
+    recentGames(
+      filter: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<IBingoRoom.RecentGameStructOutput[]>;
+
     selectAndBingo(
       gameId: PromiseOrValue<BigNumberish>,
       number: PromiseOrValue<BigNumberish>,
@@ -426,6 +511,16 @@ export interface IBingoRoom extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    summary(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        totalGameStarted: BigNumber;
+        totalPlayersJoined: BigNumber;
+        totalRewardDistributed: BigNumber;
+      }
+    >;
   };
 
   filters: {
@@ -474,6 +569,15 @@ export interface IBingoRoom extends BaseContract {
       player?: PromiseOrValue<string> | null,
       number?: null
     ): NumberSelectedEventFilter;
+
+    "RewardChanged(address,address)"(
+      newReward?: PromiseOrValue<string> | null,
+      oldReward?: PromiseOrValue<string> | null
+    ): RewardChangedEventFilter;
+    RewardChanged(
+      newReward?: PromiseOrValue<string> | null,
+      oldReward?: PromiseOrValue<string> | null
+    ): RewardChangedEventFilter;
   };
 
   estimateGas: {
@@ -505,6 +609,11 @@ export interface IBingoRoom extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    recentGames(
+      filter: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     selectAndBingo(
       gameId: PromiseOrValue<BigNumberish>,
       number: PromiseOrValue<BigNumberish>,
@@ -518,6 +627,8 @@ export interface IBingoRoom extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    summary(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -549,6 +660,11 @@ export interface IBingoRoom extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    recentGames(
+      filter: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     selectAndBingo(
       gameId: PromiseOrValue<BigNumberish>,
       number: PromiseOrValue<BigNumberish>,
@@ -562,5 +678,7 @@ export interface IBingoRoom extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    summary(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

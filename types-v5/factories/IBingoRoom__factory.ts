@@ -114,6 +114,25 @@ const _abi = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newReward",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "oldReward",
+        type: "address",
+      },
+    ],
+    name: "RewardChanged",
+    type: "event",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -304,6 +323,47 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "enum IBingoRoom.RecentGameFilter",
+        name: "filter",
+        type: "uint8",
+      },
+    ],
+    name: "recentGames",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "gameId",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "winner",
+            type: "address",
+          },
+          {
+            internalType: "uint8[][]",
+            name: "cardNumbers",
+            type: "uint8[][]",
+          },
+          {
+            internalType: "uint8[]",
+            name: "selectedNumbers",
+            type: "uint8[]",
+          },
+        ],
+        internalType: "struct IBingoRoom.RecentGame[]",
+        name: "games",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "gameId",
         type: "uint256",
@@ -345,6 +405,29 @@ const _abi = [
     name: "selectNumber",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "summary",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "totalGameStarted",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "totalPlayersJoined",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "totalRewardDistributed",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
 ];

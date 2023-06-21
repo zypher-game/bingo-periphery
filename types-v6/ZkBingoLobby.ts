@@ -44,6 +44,25 @@ export declare namespace IBingoRoom {
     timestamp: bigint,
     player: string
   ] & { round: bigint; number: bigint; timestamp: bigint; player: string };
+
+  export type RecentGameStruct = {
+    gameId: BigNumberish;
+    winner: AddressLike;
+    cardNumbers: BigNumberish[][];
+    selectedNumbers: BigNumberish[];
+  };
+
+  export type RecentGameStructOutput = [
+    gameId: bigint,
+    winner: string,
+    cardNumbers: bigint[][],
+    selectedNumbers: bigint[]
+  ] & {
+    gameId: bigint;
+    winner: string;
+    cardNumbers: bigint[][];
+    selectedNumbers: bigint[];
+  };
 }
 
 export declare namespace ZkBingoLobby {
@@ -64,6 +83,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "GAME_REWARD_FEE"
       | "MAX_GAME_DURATION"
       | "NAME"
+      | "RECENT_GAME_COUNTS"
       | "ROUND_DURATION"
       | "ROUND_TIMEOUT"
       | "bingo"
@@ -84,11 +104,14 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "minPlayers"
       | "owner"
       | "proxiableUUID"
+      | "recentGames"
       | "renounceOwnership"
       | "selectAndBingo"
       | "selectNumber"
       | "setLogger"
+      | "setReward"
       | "start"
+      | "summary"
       | "transferOwnership"
       | "upgradeTo"
       | "upgradeToAndCall"
@@ -108,6 +131,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "LineupLeft"
       | "NumberSelected"
       | "OwnershipTransferred"
+      | "RewardChanged"
       | "Upgraded"
   ): EventFragment;
 
@@ -120,6 +144,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "NAME", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "RECENT_GAME_COUNTS",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "ROUND_DURATION",
     values?: undefined
@@ -190,6 +218,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "recentGames",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
@@ -205,7 +237,12 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "setLogger",
     values: [AddressLike, BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setReward",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
+  encodeFunctionData(functionFragment: "summary", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [AddressLike]
@@ -233,6 +270,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "NAME", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "RECENT_GAME_COUNTS",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "ROUND_DURATION",
     data: BytesLike
@@ -284,6 +325,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "recentGames",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
@@ -296,7 +341,9 @@ export interface ZkBingoLobbyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setLogger", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setReward", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
@@ -472,6 +519,19 @@ export namespace OwnershipTransferredEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace RewardChangedEvent {
+  export type InputTuple = [newReward: AddressLike, oldReward: AddressLike];
+  export type OutputTuple = [newReward: string, oldReward: string];
+  export interface OutputObject {
+    newReward: string;
+    oldReward: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace UpgradedEvent {
   export type InputTuple = [implementation: AddressLike];
   export type OutputTuple = [implementation: string];
@@ -532,6 +592,8 @@ export interface ZkBingoLobby extends BaseContract {
   MAX_GAME_DURATION: TypedContractMethod<[], [bigint], "view">;
 
   NAME: TypedContractMethod<[], [string], "view">;
+
+  RECENT_GAME_COUNTS: TypedContractMethod<[], [bigint], "view">;
 
   ROUND_DURATION: TypedContractMethod<[], [bigint], "view">;
 
@@ -644,6 +706,12 @@ export interface ZkBingoLobby extends BaseContract {
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
+  recentGames: TypedContractMethod<
+    [filter: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput[]],
+    "view"
+  >;
+
   renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
 
   selectAndBingo: TypedContractMethod<
@@ -669,7 +737,25 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
 
+  setReward: TypedContractMethod<
+    [newReward: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
   start: TypedContractMethod<[], [void], "nonpayable">;
+
+  summary: TypedContractMethod<
+    [],
+    [
+      [bigint, bigint, bigint] & {
+        totalGameStarted: bigint;
+        totalPlayersJoined: bigint;
+        totalRewardDistributed: bigint;
+      }
+    ],
+    "view"
+  >;
 
   transferOwnership: TypedContractMethod<
     [newOwner: AddressLike],
@@ -718,6 +804,9 @@ export interface ZkBingoLobby extends BaseContract {
   getFunction(
     nameOrSignature: "NAME"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "RECENT_GAME_COUNTS"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "ROUND_DURATION"
   ): TypedContractMethod<[], [bigint], "view">;
@@ -846,6 +935,13 @@ export interface ZkBingoLobby extends BaseContract {
     nameOrSignature: "proxiableUUID"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "recentGames"
+  ): TypedContractMethod<
+    [filter: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput[]],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "renounceOwnership"
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
@@ -875,8 +971,24 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "setReward"
+  ): TypedContractMethod<[newReward: AddressLike], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "start"
   ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "summary"
+  ): TypedContractMethod<
+    [],
+    [
+      [bigint, bigint, bigint] & {
+        totalGameStarted: bigint;
+        totalPlayersJoined: bigint;
+        totalRewardDistributed: bigint;
+      }
+    ],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "transferOwnership"
   ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
@@ -982,6 +1094,13 @@ export interface ZkBingoLobby extends BaseContract {
     OwnershipTransferredEvent.InputTuple,
     OwnershipTransferredEvent.OutputTuple,
     OwnershipTransferredEvent.OutputObject
+  >;
+  getEvent(
+    key: "RewardChanged"
+  ): TypedContractEvent<
+    RewardChangedEvent.InputTuple,
+    RewardChangedEvent.OutputTuple,
+    RewardChangedEvent.OutputObject
   >;
   getEvent(
     key: "Upgraded"
@@ -1100,6 +1219,17 @@ export interface ZkBingoLobby extends BaseContract {
       OwnershipTransferredEvent.InputTuple,
       OwnershipTransferredEvent.OutputTuple,
       OwnershipTransferredEvent.OutputObject
+    >;
+
+    "RewardChanged(address,address)": TypedContractEvent<
+      RewardChangedEvent.InputTuple,
+      RewardChangedEvent.OutputTuple,
+      RewardChangedEvent.OutputObject
+    >;
+    RewardChanged: TypedContractEvent<
+      RewardChangedEvent.InputTuple,
+      RewardChangedEvent.OutputTuple,
+      RewardChangedEvent.OutputObject
     >;
 
     "Upgraded(address)": TypedContractEvent<

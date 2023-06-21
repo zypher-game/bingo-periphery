@@ -52,6 +52,25 @@ export declare namespace IBingoRoom {
     timestamp: number;
     player: string;
   };
+
+  export type RecentGameStruct = {
+    gameId: PromiseOrValue<BigNumberish>;
+    winner: PromiseOrValue<string>;
+    cardNumbers: PromiseOrValue<BigNumberish>[][];
+    selectedNumbers: PromiseOrValue<BigNumberish>[];
+  };
+
+  export type RecentGameStructOutput = [
+    BigNumber,
+    string,
+    number[][],
+    number[]
+  ] & {
+    gameId: BigNumber;
+    winner: string;
+    cardNumbers: number[][];
+    selectedNumbers: number[];
+  };
 }
 
 export declare namespace ZkBingoLobby {
@@ -71,6 +90,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "GAME_REWARD_FEE()": FunctionFragment;
     "MAX_GAME_DURATION()": FunctionFragment;
     "NAME()": FunctionFragment;
+    "RECENT_GAME_COUNTS()": FunctionFragment;
     "ROUND_DURATION()": FunctionFragment;
     "ROUND_TIMEOUT()": FunctionFragment;
     "bingo(uint256,uint8[][],bytes)": FunctionFragment;
@@ -91,11 +111,14 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "minPlayers()": FunctionFragment;
     "owner()": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
+    "recentGames(uint8)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "selectAndBingo(uint256,uint8,uint8[][],bytes)": FunctionFragment;
     "selectNumber(uint256,uint8)": FunctionFragment;
     "setLogger(address,uint256,uint256)": FunctionFragment;
+    "setReward(address)": FunctionFragment;
     "start()": FunctionFragment;
+    "summary()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
     "upgradeToAndCall(address,bytes)": FunctionFragment;
@@ -108,6 +131,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       | "GAME_REWARD_FEE"
       | "MAX_GAME_DURATION"
       | "NAME"
+      | "RECENT_GAME_COUNTS"
       | "ROUND_DURATION"
       | "ROUND_TIMEOUT"
       | "bingo"
@@ -128,11 +152,14 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       | "minPlayers"
       | "owner"
       | "proxiableUUID"
+      | "recentGames"
       | "renounceOwnership"
       | "selectAndBingo"
       | "selectNumber"
       | "setLogger"
+      | "setReward"
       | "start"
+      | "summary"
       | "transferOwnership"
       | "upgradeTo"
       | "upgradeToAndCall"
@@ -149,6 +176,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "NAME", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "RECENT_GAME_COUNTS",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "ROUND_DURATION",
     values?: undefined
@@ -226,6 +257,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "recentGames",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
@@ -250,7 +285,12 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>
     ]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setReward",
+    values: [PromiseOrValue<string>]
+  ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
+  encodeFunctionData(functionFragment: "summary", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [PromiseOrValue<string>]
@@ -278,6 +318,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "NAME", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "RECENT_GAME_COUNTS",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "ROUND_DURATION",
     data: BytesLike
@@ -329,6 +373,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "recentGames",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
@@ -341,7 +389,9 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setLogger", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setReward", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
@@ -368,6 +418,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "LineupLeft(address)": EventFragment;
     "NumberSelected(uint256,uint32,address,uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "RewardChanged(address,address)": EventFragment;
     "Upgraded(address)": EventFragment;
   };
 
@@ -381,6 +432,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "LineupLeft"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NumberSelected"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RewardChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
@@ -488,6 +540,17 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
+export interface RewardChangedEventObject {
+  newReward: string;
+  oldReward: string;
+}
+export type RewardChangedEvent = TypedEvent<
+  [string, string],
+  RewardChangedEventObject
+>;
+
+export type RewardChangedEventFilter = TypedEventFilter<RewardChangedEvent>;
+
 export interface UpgradedEventObject {
   implementation: string;
 }
@@ -527,6 +590,8 @@ export interface ZkBingoLobby extends BaseContract {
     MAX_GAME_DURATION(overrides?: CallOverrides): Promise<[number]>;
 
     NAME(overrides?: CallOverrides): Promise<[string]>;
+
+    RECENT_GAME_COUNTS(overrides?: CallOverrides): Promise<[number]>;
 
     ROUND_DURATION(overrides?: CallOverrides): Promise<[number]>;
 
@@ -639,6 +704,15 @@ export interface ZkBingoLobby extends BaseContract {
 
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
+    recentGames(
+      filter: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [IBingoRoom.RecentGameStructOutput[]] & {
+        games: IBingoRoom.RecentGameStructOutput[];
+      }
+    >;
+
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -664,9 +738,24 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setReward(
+      newReward: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     start(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    summary(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        totalGameStarted: BigNumber;
+        totalPlayersJoined: BigNumber;
+        totalRewardDistributed: BigNumber;
+      }
+    >;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
@@ -705,6 +794,8 @@ export interface ZkBingoLobby extends BaseContract {
   MAX_GAME_DURATION(overrides?: CallOverrides): Promise<number>;
 
   NAME(overrides?: CallOverrides): Promise<string>;
+
+  RECENT_GAME_COUNTS(overrides?: CallOverrides): Promise<number>;
 
   ROUND_DURATION(overrides?: CallOverrides): Promise<number>;
 
@@ -807,6 +898,11 @@ export interface ZkBingoLobby extends BaseContract {
 
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
+  recentGames(
+    filter: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<IBingoRoom.RecentGameStructOutput[]>;
+
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -832,9 +928,24 @@ export interface ZkBingoLobby extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setReward(
+    newReward: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   start(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  summary(
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber] & {
+      totalGameStarted: BigNumber;
+      totalPlayersJoined: BigNumber;
+      totalRewardDistributed: BigNumber;
+    }
+  >;
 
   transferOwnership(
     newOwner: PromiseOrValue<string>,
@@ -873,6 +984,8 @@ export interface ZkBingoLobby extends BaseContract {
     MAX_GAME_DURATION(overrides?: CallOverrides): Promise<number>;
 
     NAME(overrides?: CallOverrides): Promise<string>;
+
+    RECENT_GAME_COUNTS(overrides?: CallOverrides): Promise<number>;
 
     ROUND_DURATION(overrides?: CallOverrides): Promise<number>;
 
@@ -977,6 +1090,11 @@ export interface ZkBingoLobby extends BaseContract {
 
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
+    recentGames(
+      filter: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<IBingoRoom.RecentGameStructOutput[]>;
+
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     selectAndBingo(
@@ -1000,7 +1118,22 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setReward(
+      newReward: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     start(overrides?: CallOverrides): Promise<void>;
+
+    summary(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        totalGameStarted: BigNumber;
+        totalPlayersJoined: BigNumber;
+        totalRewardDistributed: BigNumber;
+      }
+    >;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
@@ -1121,6 +1254,15 @@ export interface ZkBingoLobby extends BaseContract {
       newOwner?: PromiseOrValue<string> | null
     ): OwnershipTransferredEventFilter;
 
+    "RewardChanged(address,address)"(
+      newReward?: PromiseOrValue<string> | null,
+      oldReward?: PromiseOrValue<string> | null
+    ): RewardChangedEventFilter;
+    RewardChanged(
+      newReward?: PromiseOrValue<string> | null,
+      oldReward?: PromiseOrValue<string> | null
+    ): RewardChangedEventFilter;
+
     "Upgraded(address)"(
       implementation?: PromiseOrValue<string> | null
     ): UpgradedEventFilter;
@@ -1135,6 +1277,8 @@ export interface ZkBingoLobby extends BaseContract {
     MAX_GAME_DURATION(overrides?: CallOverrides): Promise<BigNumber>;
 
     NAME(overrides?: CallOverrides): Promise<BigNumber>;
+
+    RECENT_GAME_COUNTS(overrides?: CallOverrides): Promise<BigNumber>;
 
     ROUND_DURATION(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1209,6 +1353,11 @@ export interface ZkBingoLobby extends BaseContract {
 
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
 
+    recentGames(
+      filter: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1234,9 +1383,16 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setReward(
+      newReward: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     start(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    summary(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
@@ -1268,6 +1424,10 @@ export interface ZkBingoLobby extends BaseContract {
     MAX_GAME_DURATION(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     NAME(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    RECENT_GAME_COUNTS(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     ROUND_DURATION(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1342,6 +1502,11 @@ export interface ZkBingoLobby extends BaseContract {
 
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    recentGames(
+      filter: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -1367,9 +1532,16 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setReward(
+      newReward: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     start(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    summary(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,

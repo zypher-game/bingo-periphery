@@ -44,6 +44,25 @@ export declare namespace IBingoRoom {
     timestamp: bigint,
     player: string
   ] & { round: bigint; number: bigint; timestamp: bigint; player: string };
+
+  export type RecentGameStruct = {
+    gameId: BigNumberish;
+    winner: AddressLike;
+    cardNumbers: BigNumberish[][];
+    selectedNumbers: BigNumberish[];
+  };
+
+  export type RecentGameStructOutput = [
+    gameId: bigint,
+    winner: string,
+    cardNumbers: bigint[][],
+    selectedNumbers: bigint[]
+  ] & {
+    gameId: bigint;
+    winner: string;
+    cardNumbers: bigint[][];
+    selectedNumbers: bigint[];
+  };
 }
 
 export interface IBingoRoomInterface extends Interface {
@@ -56,8 +75,10 @@ export interface IBingoRoomInterface extends Interface {
       | "getCurrentRound"
       | "getGameInfo"
       | "getSelectedNumbers"
+      | "recentGames"
       | "selectAndBingo"
       | "selectNumber"
+      | "summary"
   ): FunctionFragment;
 
   getEvent(
@@ -66,6 +87,7 @@ export interface IBingoRoomInterface extends Interface {
       | "GameParticipated"
       | "GameStarted"
       | "NumberSelected"
+      | "RewardChanged"
   ): EventFragment;
 
   encodeFunctionData(
@@ -91,6 +113,10 @@ export interface IBingoRoomInterface extends Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "recentGames",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "selectAndBingo",
     values: [BigNumberish, BigNumberish, BigNumberish[][], BytesLike]
   ): string;
@@ -98,6 +124,7 @@ export interface IBingoRoomInterface extends Interface {
     functionFragment: "selectNumber",
     values: [BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "summary", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(
@@ -119,6 +146,10 @@ export interface IBingoRoomInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "recentGames",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "selectAndBingo",
     data: BytesLike
   ): Result;
@@ -126,6 +157,7 @@ export interface IBingoRoomInterface extends Interface {
     functionFragment: "selectNumber",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
 }
 
 export namespace BingoEvent {
@@ -206,6 +238,19 @@ export namespace NumberSelectedEvent {
     round: bigint;
     player: string;
     number: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace RewardChangedEvent {
+  export type InputTuple = [newReward: AddressLike, oldReward: AddressLike];
+  export type OutputTuple = [newReward: string, oldReward: string];
+  export interface OutputObject {
+    newReward: string;
+    oldReward: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -314,6 +359,12 @@ export interface IBingoRoom extends BaseContract {
     "view"
   >;
 
+  recentGames: TypedContractMethod<
+    [filter: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput[]],
+    "view"
+  >;
+
   selectAndBingo: TypedContractMethod<
     [
       gameId: BigNumberish,
@@ -329,6 +380,18 @@ export interface IBingoRoom extends BaseContract {
     [gameId: BigNumberish, number: BigNumberish],
     [void],
     "nonpayable"
+  >;
+
+  summary: TypedContractMethod<
+    [],
+    [
+      [bigint, bigint, bigint] & {
+        totalGameStarted: bigint;
+        totalPlayersJoined: bigint;
+        totalRewardDistributed: bigint;
+      }
+    ],
+    "view"
   >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
@@ -397,6 +460,13 @@ export interface IBingoRoom extends BaseContract {
     nameOrSignature: "getSelectedNumbers"
   ): TypedContractMethod<[gameId: BigNumberish], [bigint[]], "view">;
   getFunction(
+    nameOrSignature: "recentGames"
+  ): TypedContractMethod<
+    [filter: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput[]],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "selectAndBingo"
   ): TypedContractMethod<
     [
@@ -414,6 +484,19 @@ export interface IBingoRoom extends BaseContract {
     [gameId: BigNumberish, number: BigNumberish],
     [void],
     "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "summary"
+  ): TypedContractMethod<
+    [],
+    [
+      [bigint, bigint, bigint] & {
+        totalGameStarted: bigint;
+        totalPlayersJoined: bigint;
+        totalRewardDistributed: bigint;
+      }
+    ],
+    "view"
   >;
 
   getEvent(
@@ -443,6 +526,13 @@ export interface IBingoRoom extends BaseContract {
     NumberSelectedEvent.InputTuple,
     NumberSelectedEvent.OutputTuple,
     NumberSelectedEvent.OutputObject
+  >;
+  getEvent(
+    key: "RewardChanged"
+  ): TypedContractEvent<
+    RewardChangedEvent.InputTuple,
+    RewardChangedEvent.OutputTuple,
+    RewardChangedEvent.OutputObject
   >;
 
   filters: {
@@ -488,6 +578,17 @@ export interface IBingoRoom extends BaseContract {
       NumberSelectedEvent.InputTuple,
       NumberSelectedEvent.OutputTuple,
       NumberSelectedEvent.OutputObject
+    >;
+
+    "RewardChanged(address,address)": TypedContractEvent<
+      RewardChangedEvent.InputTuple,
+      RewardChangedEvent.OutputTuple,
+      RewardChangedEvent.OutputObject
+    >;
+    RewardChanged: TypedContractEvent<
+      RewardChangedEvent.InputTuple,
+      RewardChangedEvent.OutputTuple,
+      RewardChangedEvent.OutputObject
     >;
   };
 }

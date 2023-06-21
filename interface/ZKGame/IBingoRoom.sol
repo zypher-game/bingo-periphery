@@ -39,6 +39,11 @@ interface IBingoRoom {
         uint8[][] playerCardNumbers
     );
 
+    event RewardChanged(
+        address indexed newReward,
+        address indexed oldReward
+    );
+
     function gameCard() external view returns (address);
 
     // function betToken() external view returns (address);
@@ -88,4 +93,47 @@ interface IBingoRoom {
         uint8[][] calldata cardNumbers,
         bytes calldata signedLabel
     ) external;
+
+
+    ////////////
+
+    /* 最近 N=20 場的遊戲:
+    filter: LIVE | FINISHED
+    columns:
+        - game id
+        - game winner address
+        - game winner card
+            - numbers
+            - selected
+    */
+    enum RecentGameFilter {
+        // 0
+        ALL,
+        // 1
+        LIVE,
+        // 2
+        FINISHED
+    }
+    struct RecentGame {
+        uint256 gameId;
+        address winner;
+        uint8[][] cardNumbers;
+        uint8[] selectedNumbers;
+    }
+    function recentGames(RecentGameFilter filter) external view returns (
+        RecentGame[] memory games
+    );
+
+
+   /*
+boxes → NFT 721 minted (rewardDistribution)
+games → game started
+
+players → players joined
+    */
+    function summary() external view returns (
+        uint256 totalGameStarted,
+        uint256 totalPlayersJoined,
+        uint256 totalRewardDistributed
+    );
 }
