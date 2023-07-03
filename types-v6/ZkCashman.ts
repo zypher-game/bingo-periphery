@@ -24,11 +24,14 @@ import type {
 } from "./common";
 
 export declare namespace IUserCenter {
-  export type StatisticStruct = { count: BigNumberish; total: BigNumberish };
+  export type PlayerStatisticsStruct = {
+    wins: BigNumberish;
+    joined: BigNumberish;
+  };
 
-  export type StatisticStructOutput = [count: bigint, total: bigint] & {
-    count: bigint;
-    total: bigint;
+  export type PlayerStatisticsStructOutput = [wins: bigint, joined: bigint] & {
+    wins: bigint;
+    joined: bigint;
   };
 }
 
@@ -37,19 +40,15 @@ export interface ZkCashmanInterface extends Interface {
     nameOrSignature:
       | "DEFAULT_ADMIN_ROLE"
       | "TRANSFER_ROLE"
+      | "_seasonLogs"
       | "addAdmin"
       | "addMintable"
       | "addTransferer"
-      | "games"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
       | "initialize"
       | "isMintable"
-      | "join"
-      | "joinedCounts"
-      | "partner"
-      | "players"
       | "proxiableUUID"
       | "removeAdmin"
       | "removeMintable"
@@ -60,8 +59,8 @@ export interface ZkCashmanInterface extends Interface {
       | "transferTo"
       | "upgradeTo"
       | "upgradeToAndCall"
+      | "userRecords"
       | "version"
-      | "win"
   ): FunctionFragment;
 
   getEvent(
@@ -84,6 +83,10 @@ export interface ZkCashmanInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "_seasonLogs",
+    values: [BigNumberish, AddressLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "addAdmin",
     values: [AddressLike]
   ): string;
@@ -94,10 +97,6 @@ export interface ZkCashmanInterface extends Interface {
   encodeFunctionData(
     functionFragment: "addTransferer",
     values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "games",
-    values: [AddressLike, AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
@@ -117,22 +116,6 @@ export interface ZkCashmanInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "isMintable",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "join",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "joinedCounts",
-    values: [AddressLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "partner",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "players",
     values: [AddressLike]
   ): string;
   encodeFunctionData(
@@ -175,11 +158,11 @@ export interface ZkCashmanInterface extends Interface {
     functionFragment: "upgradeToAndCall",
     values: [AddressLike, BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "version", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "win",
-    values: [AddressLike, BigNumberish]
+    functionFragment: "userRecords",
+    values: [AddressLike]
   ): string;
+  encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
@@ -187,6 +170,10 @@ export interface ZkCashmanInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "TRANSFER_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "_seasonLogs",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "addAdmin", data: BytesLike): Result;
@@ -198,7 +185,6 @@ export interface ZkCashmanInterface extends Interface {
     functionFragment: "addTransferer",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "games", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
@@ -207,13 +193,6 @@ export interface ZkCashmanInterface extends Interface {
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "isMintable", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "join", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "joinedCounts",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "partner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "players", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
@@ -245,8 +224,11 @@ export interface ZkCashmanInterface extends Interface {
     functionFragment: "upgradeToAndCall",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "userRecords",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "win", data: BytesLike): Result;
 }
 
 export namespace AdminChangedEvent {
@@ -403,6 +385,12 @@ export interface ZkCashman extends BaseContract {
 
   TRANSFER_ROLE: TypedContractMethod<[], [string], "view">;
 
+  _seasonLogs: TypedContractMethod<
+    [arg0: BigNumberish, arg1: AddressLike],
+    [[bigint, bigint] & { wins: bigint; joined: bigint }],
+    "view"
+  >;
+
   addAdmin: TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
 
   addMintable: TypedContractMethod<[token: AddressLike], [void], "nonpayable">;
@@ -411,17 +399,6 @@ export interface ZkCashman extends BaseContract {
     [account: AddressLike],
     [void],
     "nonpayable"
-  >;
-
-  games: TypedContractMethod<
-    [arg0: AddressLike, arg1: AddressLike],
-    [
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    ],
-    "view"
   >;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
@@ -441,31 +418,6 @@ export interface ZkCashman extends BaseContract {
   initialize: TypedContractMethod<[], [void], "nonpayable">;
 
   isMintable: TypedContractMethod<[token: AddressLike], [boolean], "view">;
-
-  join: TypedContractMethod<
-    [user: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  joinedCounts: TypedContractMethod<
-    [game: AddressLike, user: AddressLike],
-    [bigint],
-    "view"
-  >;
-
-  partner: TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
-
-  players: TypedContractMethod<
-    [arg0: AddressLike],
-    [
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    ],
-    "view"
-  >;
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
@@ -523,13 +475,21 @@ export interface ZkCashman extends BaseContract {
     "payable"
   >;
 
-  version: TypedContractMethod<[], [bigint], "view">;
-
-  win: TypedContractMethod<
-    [user: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
+  userRecords: TypedContractMethod<
+    [user: AddressLike],
+    [
+      [
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
+      ] & {
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
+      }
+    ],
+    "view"
   >;
+
+  version: TypedContractMethod<[], [bigint], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
@@ -542,6 +502,13 @@ export interface ZkCashman extends BaseContract {
     nameOrSignature: "TRANSFER_ROLE"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "_seasonLogs"
+  ): TypedContractMethod<
+    [arg0: BigNumberish, arg1: AddressLike],
+    [[bigint, bigint] & { wins: bigint; joined: bigint }],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "addAdmin"
   ): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
   getFunction(
@@ -550,18 +517,6 @@ export interface ZkCashman extends BaseContract {
   getFunction(
     nameOrSignature: "addTransferer"
   ): TypedContractMethod<[account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "games"
-  ): TypedContractMethod<
-    [arg0: AddressLike, arg1: AddressLike],
-    [
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    ],
-    "view"
-  >;
   getFunction(
     nameOrSignature: "getRoleAdmin"
   ): TypedContractMethod<[role: BytesLike], [string], "view">;
@@ -585,35 +540,6 @@ export interface ZkCashman extends BaseContract {
   getFunction(
     nameOrSignature: "isMintable"
   ): TypedContractMethod<[token: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "join"
-  ): TypedContractMethod<
-    [user: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "joinedCounts"
-  ): TypedContractMethod<
-    [game: AddressLike, user: AddressLike],
-    [bigint],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "partner"
-  ): TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "players"
-  ): TypedContractMethod<
-    [arg0: AddressLike],
-    [
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    ],
-    "view"
-  >;
   getFunction(
     nameOrSignature: "proxiableUUID"
   ): TypedContractMethod<[], [string], "view">;
@@ -665,15 +591,23 @@ export interface ZkCashman extends BaseContract {
     "payable"
   >;
   getFunction(
+    nameOrSignature: "userRecords"
+  ): TypedContractMethod<
+    [user: AddressLike],
+    [
+      [
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
+      ] & {
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
+      }
+    ],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "version"
   ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "win"
-  ): TypedContractMethod<
-    [user: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
 
   getEvent(
     key: "AdminChanged"

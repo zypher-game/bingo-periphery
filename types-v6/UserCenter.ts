@@ -22,59 +22,37 @@ import type {
 } from "./common";
 
 export declare namespace IUserCenter {
-  export type StatisticStruct = { count: BigNumberish; total: BigNumberish };
+  export type PlayerStatisticsStruct = {
+    wins: BigNumberish;
+    joined: BigNumberish;
+  };
 
-  export type StatisticStructOutput = [count: bigint, total: bigint] & {
-    count: bigint;
-    total: bigint;
+  export type PlayerStatisticsStructOutput = [wins: bigint, joined: bigint] & {
+    wins: bigint;
+    joined: bigint;
   };
 }
 
 export interface UserCenterInterface extends Interface {
-  getFunction(
-    nameOrSignature:
-      | "games"
-      | "join"
-      | "joinedCounts"
-      | "partner"
-      | "players"
-      | "win"
-  ): FunctionFragment;
+  getFunction(nameOrSignature: "_seasonLogs" | "userRecords"): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "games",
-    values: [AddressLike, AddressLike]
+    functionFragment: "_seasonLogs",
+    values: [BigNumberish, AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "join",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "joinedCounts",
-    values: [AddressLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "partner",
+    functionFragment: "userRecords",
     values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "players",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "win",
-    values: [AddressLike, BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: "games", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "join", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "joinedCounts",
+    functionFragment: "_seasonLogs",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "partner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "players", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "win", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "userRecords",
+    data: BytesLike
+  ): Result;
 }
 
 export interface UserCenter extends BaseContract {
@@ -120,46 +98,24 @@ export interface UserCenter extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  games: TypedContractMethod<
-    [arg0: AddressLike, arg1: AddressLike],
+  _seasonLogs: TypedContractMethod<
+    [arg0: BigNumberish, arg1: AddressLike],
+    [[bigint, bigint] & { wins: bigint; joined: bigint }],
+    "view"
+  >;
+
+  userRecords: TypedContractMethod<
+    [user: AddressLike],
     [
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
+      [
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
+      ] & {
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
       }
     ],
     "view"
-  >;
-
-  join: TypedContractMethod<
-    [user: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  joinedCounts: TypedContractMethod<
-    [game: AddressLike, user: AddressLike],
-    [bigint],
-    "view"
-  >;
-
-  partner: TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
-
-  players: TypedContractMethod<
-    [arg0: AddressLike],
-    [
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    ],
-    "view"
-  >;
-
-  win: TypedContractMethod<
-    [user: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
   >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
@@ -167,52 +123,26 @@ export interface UserCenter extends BaseContract {
   ): T;
 
   getFunction(
-    nameOrSignature: "games"
+    nameOrSignature: "_seasonLogs"
   ): TypedContractMethod<
-    [arg0: AddressLike, arg1: AddressLike],
+    [arg0: BigNumberish, arg1: AddressLike],
+    [[bigint, bigint] & { wins: bigint; joined: bigint }],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "userRecords"
+  ): TypedContractMethod<
+    [user: AddressLike],
     [
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
+      [
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
+      ] & {
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
       }
     ],
     "view"
-  >;
-  getFunction(
-    nameOrSignature: "join"
-  ): TypedContractMethod<
-    [user: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "joinedCounts"
-  ): TypedContractMethod<
-    [game: AddressLike, user: AddressLike],
-    [bigint],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "partner"
-  ): TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "players"
-  ): TypedContractMethod<
-    [arg0: AddressLike],
-    [
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    ],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "win"
-  ): TypedContractMethod<
-    [user: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
   >;
 
   filters: {};

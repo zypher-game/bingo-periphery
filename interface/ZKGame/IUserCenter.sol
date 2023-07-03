@@ -2,19 +2,22 @@
 pragma solidity ^0.8.4;
 
 interface IUserCenter {
-    struct Statistic {
-        uint32 count;
-        uint224 total;
+    struct GameSeason {
+        string title;
+        uint256 startedAt;
     }
 
-    struct GameStatistic {
-        Statistic joined;
-        Statistic won;
+    struct PlayerStatistics {
+        uint256 wins;
+        uint256 joined;
     }
 
-    // function join(address user, uint256 amount) external;
-
-    // function win(address user, uint256 amount) external;
-
-    function joinedCounts(address game, address user) external view returns (uint32);
+    /**
+     * @return current - current season statistics
+     * @return overall - overall statistics
+     */
+    function userRecords(address user) external view returns (
+        PlayerStatistics memory current,
+        PlayerStatistics memory overall
+    );
 }

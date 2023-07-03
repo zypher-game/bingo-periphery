@@ -97,6 +97,14 @@ interface IBingoRoom {
         bytes calldata signedLabel
     ) external;
 
+    /*
+    ██       ██████   ██████  ███████
+    ██      ██    ██ ██       ██
+    ██      ██    ██ ██   ███ ███████ - recentGames: all games
+    ██      ██    ██ ██    ██      ██ - playedGames: player's games
+    ███████  ██████   ██████  ███████ - summary: total games, players, rewards
+    */
+
     struct RecentGame {
         uint256 gameId;
         address winner;
@@ -113,10 +121,10 @@ interface IBingoRoom {
         RecentGame[] memory games
     );
 
-   /*
-        boxes → NFT 721 minted (rewardDistribution)
-        games → game started
-        players → players joined
+   /**
+    * @return totalGameStarted - total games started
+    * @return totalPlayersJoined - total players joined
+    * @return totalRewardDistributed - total reward(NFTs) distributed
     */
     function summary() external view returns (
         uint256 totalGameStarted,

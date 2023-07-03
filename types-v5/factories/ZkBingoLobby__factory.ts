@@ -317,6 +317,35 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "_seasonLogs",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "wins",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "joined",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "gameId",
         type: "uint256",
       },
@@ -634,39 +663,6 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "log",
-    outputs: [
-      {
-        internalType: "address",
-        name: "space",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "currentWinnerTokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "currentJoinerTokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "overallWinnerTokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "overallJoinerTokenId",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "maxPlayers",
     outputs: [
       {
@@ -689,6 +685,19 @@ const _abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "title",
+        type: "string",
+      },
+    ],
+    name: "newSeason",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -895,29 +904,6 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "space",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "winnerId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "joinerId",
-        type: "uint256",
-      },
-    ],
-    name: "setLogger",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "newReward",
         type: "address",
       },
@@ -1024,7 +1010,7 @@ const _abi = [
             type: "uint256",
           },
         ],
-        internalType: "struct ZkBingoLobby.PlayerStatistics",
+        internalType: "struct IUserCenter.PlayerStatistics",
         name: "current",
         type: "tuple",
       },
@@ -1041,7 +1027,7 @@ const _abi = [
             type: "uint256",
           },
         ],
-        internalType: "struct ZkBingoLobby.PlayerStatistics",
+        internalType: "struct IUserCenter.PlayerStatistics",
         name: "overall",
         type: "tuple",
       },

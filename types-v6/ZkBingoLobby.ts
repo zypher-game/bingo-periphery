@@ -68,7 +68,7 @@ export declare namespace IBingoRoom {
   };
 }
 
-export declare namespace ZkBingoLobby {
+export declare namespace IUserCenter {
   export type PlayerStatisticsStruct = {
     wins: BigNumberish;
     joined: BigNumberish;
@@ -89,6 +89,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "RECENT_GAME_COUNTS"
       | "ROUND_DURATION"
       | "ROUND_TIMEOUT"
+      | "_seasonLogs"
       | "bingo"
       | "expectedLines"
       | "fee"
@@ -102,9 +103,9 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "join"
       | "leave"
       | "lineupUsers"
-      | "log"
       | "maxPlayers"
       | "minPlayers"
+      | "newSeason"
       | "owner"
       | "playedGames"
       | "proxiableUUID"
@@ -112,7 +113,6 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "renounceOwnership"
       | "selectAndBingo"
       | "selectNumber"
-      | "setLogger"
       | "setReward"
       | "start"
       | "summary"
@@ -161,6 +161,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "_seasonLogs",
+    values: [BigNumberish, AddressLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "bingo",
     values: [BigNumberish, BigNumberish[][], BytesLike]
   ): string;
@@ -207,7 +211,6 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "lineupUsers",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "log", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "maxPlayers",
     values?: undefined
@@ -216,6 +219,7 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "minPlayers",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "newSeason", values: [string]): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "playedGames",
@@ -240,10 +244,6 @@ export interface ZkBingoLobbyInterface extends Interface {
   encodeFunctionData(
     functionFragment: "selectNumber",
     values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setLogger",
-    values: [AddressLike, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setReward",
@@ -290,6 +290,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "ROUND_TIMEOUT",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "_seasonLogs",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "expectedLines",
@@ -324,9 +328,9 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "lineupUsers",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "log", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "maxPlayers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "minPlayers", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "newSeason", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "playedGames",
@@ -352,7 +356,6 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "selectNumber",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setLogger", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setReward", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
@@ -611,6 +614,12 @@ export interface ZkBingoLobby extends BaseContract {
 
   ROUND_TIMEOUT: TypedContractMethod<[], [bigint], "view">;
 
+  _seasonLogs: TypedContractMethod<
+    [arg0: BigNumberish, arg1: AddressLike],
+    [[bigint, bigint] & { wins: bigint; joined: bigint }],
+    "view"
+  >;
+
   bingo: TypedContractMethod<
     [
       gameId: BigNumberish,
@@ -696,23 +705,11 @@ export interface ZkBingoLobby extends BaseContract {
 
   lineupUsers: TypedContractMethod<[], [string[]], "view">;
 
-  log: TypedContractMethod<
-    [],
-    [
-      [string, bigint, bigint, bigint, bigint] & {
-        space: string;
-        currentWinnerTokenId: bigint;
-        currentJoinerTokenId: bigint;
-        overallWinnerTokenId: bigint;
-        overallJoinerTokenId: bigint;
-      }
-    ],
-    "view"
-  >;
-
   maxPlayers: TypedContractMethod<[], [bigint], "view">;
 
   minPlayers: TypedContractMethod<[], [bigint], "view">;
+
+  newSeason: TypedContractMethod<[title: string], [void], "nonpayable">;
 
   owner: TypedContractMethod<[], [string], "view">;
 
@@ -745,12 +742,6 @@ export interface ZkBingoLobby extends BaseContract {
 
   selectNumber: TypedContractMethod<
     [gameId: BigNumberish, number: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  setLogger: TypedContractMethod<
-    [space: AddressLike, winnerId: BigNumberish, joinerId: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -797,11 +788,11 @@ export interface ZkBingoLobby extends BaseContract {
     [user: AddressLike],
     [
       [
-        ZkBingoLobby.PlayerStatisticsStructOutput,
-        ZkBingoLobby.PlayerStatisticsStructOutput
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
       ] & {
-        current: ZkBingoLobby.PlayerStatisticsStructOutput;
-        overall: ZkBingoLobby.PlayerStatisticsStructOutput;
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
       }
     ],
     "view"
@@ -831,6 +822,13 @@ export interface ZkBingoLobby extends BaseContract {
   getFunction(
     nameOrSignature: "ROUND_TIMEOUT"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "_seasonLogs"
+  ): TypedContractMethod<
+    [arg0: BigNumberish, arg1: AddressLike],
+    [[bigint, bigint] & { wins: bigint; joined: bigint }],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "bingo"
   ): TypedContractMethod<
@@ -926,26 +924,14 @@ export interface ZkBingoLobby extends BaseContract {
     nameOrSignature: "lineupUsers"
   ): TypedContractMethod<[], [string[]], "view">;
   getFunction(
-    nameOrSignature: "log"
-  ): TypedContractMethod<
-    [],
-    [
-      [string, bigint, bigint, bigint, bigint] & {
-        space: string;
-        currentWinnerTokenId: bigint;
-        currentJoinerTokenId: bigint;
-        overallWinnerTokenId: bigint;
-        overallJoinerTokenId: bigint;
-      }
-    ],
-    "view"
-  >;
-  getFunction(
     nameOrSignature: "maxPlayers"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "minPlayers"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "newSeason"
+  ): TypedContractMethod<[title: string], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;
@@ -985,13 +971,6 @@ export interface ZkBingoLobby extends BaseContract {
     nameOrSignature: "selectNumber"
   ): TypedContractMethod<
     [gameId: BigNumberish, number: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "setLogger"
-  ): TypedContractMethod<
-    [space: AddressLike, winnerId: BigNumberish, joinerId: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -1037,11 +1016,11 @@ export interface ZkBingoLobby extends BaseContract {
     [user: AddressLike],
     [
       [
-        ZkBingoLobby.PlayerStatisticsStructOutput,
-        ZkBingoLobby.PlayerStatisticsStructOutput
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
       ] & {
-        current: ZkBingoLobby.PlayerStatisticsStructOutput;
-        overall: ZkBingoLobby.PlayerStatisticsStructOutput;
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
       }
     ],
     "view"

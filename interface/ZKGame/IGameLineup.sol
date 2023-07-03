@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-/** @dev 處理排隊事宜 */
+/** @dev Deal with line-ups */
 interface IGameLineup {
     event LineupJoined(
         address indexed player

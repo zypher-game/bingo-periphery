@@ -21,37 +21,22 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export declare namespace IUserCenter {
-  export type PlayerStatisticsStruct = {
-    wins: BigNumberish;
-    joined: BigNumberish;
-  };
-
-  export type PlayerStatisticsStructOutput = [wins: bigint, joined: bigint] & {
-    wins: bigint;
-    joined: bigint;
-  };
-}
-
-export interface IUserCenterInterface extends Interface {
-  getFunction(nameOrSignature: "userRecords"): FunctionFragment;
+export interface IRewardInterface extends Interface {
+  getFunction(nameOrSignature: "mint"): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "userRecords",
-    values: [AddressLike]
+    functionFragment: "mint",
+    values: [AddressLike, BigNumberish]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "userRecords",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
 }
 
-export interface IUserCenter extends BaseContract {
-  connect(runner?: ContractRunner | null): IUserCenter;
+export interface IReward extends BaseContract {
+  connect(runner?: ContractRunner | null): IReward;
   waitForDeployment(): Promise<this>;
 
-  interface: IUserCenterInterface;
+  interface: IRewardInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -90,18 +75,10 @@ export interface IUserCenter extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  userRecords: TypedContractMethod<
-    [user: AddressLike],
-    [
-      [
-        IUserCenter.PlayerStatisticsStructOutput,
-        IUserCenter.PlayerStatisticsStructOutput
-      ] & {
-        current: IUserCenter.PlayerStatisticsStructOutput;
-        overall: IUserCenter.PlayerStatisticsStructOutput;
-      }
-    ],
-    "view"
+  mint: TypedContractMethod<
+    [to: AddressLike, rewardId: BigNumberish],
+    [void],
+    "nonpayable"
   >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
@@ -109,19 +86,11 @@ export interface IUserCenter extends BaseContract {
   ): T;
 
   getFunction(
-    nameOrSignature: "userRecords"
+    nameOrSignature: "mint"
   ): TypedContractMethod<
-    [user: AddressLike],
-    [
-      [
-        IUserCenter.PlayerStatisticsStructOutput,
-        IUserCenter.PlayerStatisticsStructOutput
-      ] & {
-        current: IUserCenter.PlayerStatisticsStructOutput;
-        overall: IUserCenter.PlayerStatisticsStructOutput;
-      }
-    ],
-    "view"
+    [to: AddressLike, rewardId: BigNumberish],
+    [void],
+    "nonpayable"
   >;
 
   filters: {};

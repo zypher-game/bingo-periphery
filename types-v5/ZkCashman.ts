@@ -29,14 +29,14 @@ import type {
 } from "./common";
 
 export declare namespace IUserCenter {
-  export type StatisticStruct = {
-    count: PromiseOrValue<BigNumberish>;
-    total: PromiseOrValue<BigNumberish>;
+  export type PlayerStatisticsStruct = {
+    wins: PromiseOrValue<BigNumberish>;
+    joined: PromiseOrValue<BigNumberish>;
   };
 
-  export type StatisticStructOutput = [number, BigNumber] & {
-    count: number;
-    total: BigNumber;
+  export type PlayerStatisticsStructOutput = [BigNumber, BigNumber] & {
+    wins: BigNumber;
+    joined: BigNumber;
   };
 }
 
@@ -44,19 +44,15 @@ export interface ZkCashmanInterface extends utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "TRANSFER_ROLE()": FunctionFragment;
+    "_seasonLogs(uint256,address)": FunctionFragment;
     "addAdmin(address)": FunctionFragment;
     "addMintable(address)": FunctionFragment;
     "addTransferer(address)": FunctionFragment;
-    "games(address,address)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "initialize()": FunctionFragment;
     "isMintable(address)": FunctionFragment;
-    "join(address,uint256)": FunctionFragment;
-    "joinedCounts(address,address)": FunctionFragment;
-    "partner(address)": FunctionFragment;
-    "players(address)": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
     "removeAdmin(address)": FunctionFragment;
     "removeMintable(address)": FunctionFragment;
@@ -67,27 +63,23 @@ export interface ZkCashmanInterface extends utils.Interface {
     "transferTo(address,address,uint256)": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
     "upgradeToAndCall(address,bytes)": FunctionFragment;
+    "userRecords(address)": FunctionFragment;
     "version()": FunctionFragment;
-    "win(address,uint256)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
       | "DEFAULT_ADMIN_ROLE"
       | "TRANSFER_ROLE"
+      | "_seasonLogs"
       | "addAdmin"
       | "addMintable"
       | "addTransferer"
-      | "games"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
       | "initialize"
       | "isMintable"
-      | "join"
-      | "joinedCounts"
-      | "partner"
-      | "players"
       | "proxiableUUID"
       | "removeAdmin"
       | "removeMintable"
@@ -98,8 +90,8 @@ export interface ZkCashmanInterface extends utils.Interface {
       | "transferTo"
       | "upgradeTo"
       | "upgradeToAndCall"
+      | "userRecords"
       | "version"
-      | "win"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -109,6 +101,10 @@ export interface ZkCashmanInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "TRANSFER_ROLE",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "_seasonLogs",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "addAdmin",
@@ -121,10 +117,6 @@ export interface ZkCashmanInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "addTransferer",
     values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "games",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
@@ -144,22 +136,6 @@ export interface ZkCashmanInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "isMintable",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "join",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "joinedCounts",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "partner",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "players",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -206,11 +182,11 @@ export interface ZkCashmanInterface extends utils.Interface {
     functionFragment: "upgradeToAndCall",
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
   ): string;
-  encodeFunctionData(functionFragment: "version", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "win",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    functionFragment: "userRecords",
+    values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
@@ -218,6 +194,10 @@ export interface ZkCashmanInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "TRANSFER_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "_seasonLogs",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "addAdmin", data: BytesLike): Result;
@@ -229,7 +209,6 @@ export interface ZkCashmanInterface extends utils.Interface {
     functionFragment: "addTransferer",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "games", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
@@ -238,13 +217,6 @@ export interface ZkCashmanInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "isMintable", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "join", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "joinedCounts",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "partner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "players", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
@@ -276,8 +248,11 @@ export interface ZkCashmanInterface extends utils.Interface {
     functionFragment: "upgradeToAndCall",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "userRecords",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "win", data: BytesLike): Result;
 
   events: {
     "AdminChanged(address,address)": EventFragment;
@@ -401,6 +376,12 @@ export interface ZkCashman extends BaseContract {
 
     TRANSFER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
+    _seasonLogs(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber] & { wins: BigNumber; joined: BigNumber }>;
+
     addAdmin(
       account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -415,17 +396,6 @@ export interface ZkCashman extends BaseContract {
       account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    games(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    >;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -452,33 +422,6 @@ export interface ZkCashman extends BaseContract {
       token: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    join(
-      user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    joinedCounts(
-      game: PromiseOrValue<string>,
-      user: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[number]>;
-
-    partner(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    players(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    >;
 
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
@@ -532,18 +475,31 @@ export interface ZkCashman extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    version(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    win(
+    userRecords(
       user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
+      ] & {
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
+      }
+    >;
+
+    version(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   TRANSFER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  _seasonLogs(
+    arg0: PromiseOrValue<BigNumberish>,
+    arg1: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber] & { wins: BigNumber; joined: BigNumber }>;
 
   addAdmin(
     account: PromiseOrValue<string>,
@@ -559,17 +515,6 @@ export interface ZkCashman extends BaseContract {
     account: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  games(
-    arg0: PromiseOrValue<string>,
-    arg1: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<
-    [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-      joined: IUserCenter.StatisticStructOutput;
-      won: IUserCenter.StatisticStructOutput;
-    }
-  >;
 
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
@@ -596,33 +541,6 @@ export interface ZkCashman extends BaseContract {
     token: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  join(
-    user: PromiseOrValue<string>,
-    amount: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  joinedCounts(
-    game: PromiseOrValue<string>,
-    user: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<number>;
-
-  partner(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  players(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<
-    [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-      joined: IUserCenter.StatisticStructOutput;
-      won: IUserCenter.StatisticStructOutput;
-    }
-  >;
 
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
@@ -676,18 +594,31 @@ export interface ZkCashman extends BaseContract {
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  version(overrides?: CallOverrides): Promise<BigNumber>;
-
-  win(
+  userRecords(
     user: PromiseOrValue<string>,
-    amount: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      IUserCenter.PlayerStatisticsStructOutput,
+      IUserCenter.PlayerStatisticsStructOutput
+    ] & {
+      current: IUserCenter.PlayerStatisticsStructOutput;
+      overall: IUserCenter.PlayerStatisticsStructOutput;
+    }
+  >;
+
+  version(overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     TRANSFER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    _seasonLogs(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber] & { wins: BigNumber; joined: BigNumber }>;
 
     addAdmin(
       account: PromiseOrValue<string>,
@@ -703,17 +634,6 @@ export interface ZkCashman extends BaseContract {
       account: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    games(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    >;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -738,33 +658,6 @@ export interface ZkCashman extends BaseContract {
       token: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    join(
-      user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    joinedCounts(
-      game: PromiseOrValue<string>,
-      user: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<number>;
-
-    partner(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    players(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    >;
 
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
@@ -818,13 +711,20 @@ export interface ZkCashman extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    version(overrides?: CallOverrides): Promise<BigNumber>;
-
-    win(
+    userRecords(
       user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<
+      [
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
+      ] & {
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
+      }
+    >;
+
+    version(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {
@@ -893,6 +793,12 @@ export interface ZkCashman extends BaseContract {
 
     TRANSFER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
+    _seasonLogs(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     addAdmin(
       account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -906,12 +812,6 @@ export interface ZkCashman extends BaseContract {
     addTransferer(
       account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    games(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<string>,
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getRoleAdmin(
@@ -937,28 +837,6 @@ export interface ZkCashman extends BaseContract {
 
     isMintable(
       token: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    join(
-      user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    joinedCounts(
-      game: PromiseOrValue<string>,
-      user: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    partner(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    players(
-      arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1014,13 +892,12 @@ export interface ZkCashman extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    version(overrides?: CallOverrides): Promise<BigNumber>;
-
-    win(
+    userRecords(
       user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    version(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1029,6 +906,12 @@ export interface ZkCashman extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     TRANSFER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    _seasonLogs(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     addAdmin(
       account: PromiseOrValue<string>,
@@ -1043,12 +926,6 @@ export interface ZkCashman extends BaseContract {
     addTransferer(
       account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    games(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<string>,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getRoleAdmin(
@@ -1074,28 +951,6 @@ export interface ZkCashman extends BaseContract {
 
     isMintable(
       token: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    join(
-      user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    joinedCounts(
-      game: PromiseOrValue<string>,
-      user: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    partner(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    players(
-      arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1151,12 +1006,11 @@ export interface ZkCashman extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    win(
+    userRecords(
       user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

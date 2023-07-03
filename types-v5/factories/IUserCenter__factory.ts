@@ -11,21 +11,45 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "game",
-        type: "address",
-      },
-      {
-        internalType: "address",
         name: "user",
         type: "address",
       },
     ],
-    name: "joinedCounts",
+    name: "userRecords",
     outputs: [
       {
-        internalType: "uint32",
-        name: "",
-        type: "uint32",
+        components: [
+          {
+            internalType: "uint256",
+            name: "wins",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "joined",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct IUserCenter.PlayerStatistics",
+        name: "current",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "wins",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "joined",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct IUserCenter.PlayerStatistics",
+        name: "overall",
+        type: "tuple",
       },
     ],
     stateMutability: "view",

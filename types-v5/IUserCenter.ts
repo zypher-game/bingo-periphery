@@ -4,6 +4,7 @@
 import type {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   PopulatedTransaction,
@@ -20,20 +21,32 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface IUserCenterInterface extends utils.Interface {
-  functions: {
-    "joinedCounts(address,address)": FunctionFragment;
+export declare namespace IUserCenter {
+  export type PlayerStatisticsStruct = {
+    wins: PromiseOrValue<BigNumberish>;
+    joined: PromiseOrValue<BigNumberish>;
   };
 
-  getFunction(nameOrSignatureOrTopic: "joinedCounts"): FunctionFragment;
+  export type PlayerStatisticsStructOutput = [BigNumber, BigNumber] & {
+    wins: BigNumber;
+    joined: BigNumber;
+  };
+}
+
+export interface IUserCenterInterface extends utils.Interface {
+  functions: {
+    "userRecords(address)": FunctionFragment;
+  };
+
+  getFunction(nameOrSignatureOrTopic: "userRecords"): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "joinedCounts",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+    functionFragment: "userRecords",
+    values: [PromiseOrValue<string>]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "joinedCounts",
+    functionFragment: "userRecords",
     data: BytesLike
   ): Result;
 
@@ -67,40 +80,59 @@ export interface IUserCenter extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    joinedCounts(
-      game: PromiseOrValue<string>,
+    userRecords(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<[number]>;
+    ): Promise<
+      [
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
+      ] & {
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
+      }
+    >;
   };
 
-  joinedCounts(
-    game: PromiseOrValue<string>,
+  userRecords(
     user: PromiseOrValue<string>,
     overrides?: CallOverrides
-  ): Promise<number>;
+  ): Promise<
+    [
+      IUserCenter.PlayerStatisticsStructOutput,
+      IUserCenter.PlayerStatisticsStructOutput
+    ] & {
+      current: IUserCenter.PlayerStatisticsStructOutput;
+      overall: IUserCenter.PlayerStatisticsStructOutput;
+    }
+  >;
 
   callStatic: {
-    joinedCounts(
-      game: PromiseOrValue<string>,
+    userRecords(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<number>;
+    ): Promise<
+      [
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
+      ] & {
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
+      }
+    >;
   };
 
   filters: {};
 
   estimateGas: {
-    joinedCounts(
-      game: PromiseOrValue<string>,
+    userRecords(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    joinedCounts(
-      game: PromiseOrValue<string>,
+    userRecords(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

@@ -7,8 +7,6 @@ import type {
   BigNumberish,
   BytesLike,
   CallOverrides,
-  ContractTransaction,
-  Overrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -24,71 +22,44 @@ import type {
 } from "./common";
 
 export declare namespace IUserCenter {
-  export type StatisticStruct = {
-    count: PromiseOrValue<BigNumberish>;
-    total: PromiseOrValue<BigNumberish>;
+  export type PlayerStatisticsStruct = {
+    wins: PromiseOrValue<BigNumberish>;
+    joined: PromiseOrValue<BigNumberish>;
   };
 
-  export type StatisticStructOutput = [number, BigNumber] & {
-    count: number;
-    total: BigNumber;
+  export type PlayerStatisticsStructOutput = [BigNumber, BigNumber] & {
+    wins: BigNumber;
+    joined: BigNumber;
   };
 }
 
 export interface UserCenterInterface extends utils.Interface {
   functions: {
-    "games(address,address)": FunctionFragment;
-    "join(address,uint256)": FunctionFragment;
-    "joinedCounts(address,address)": FunctionFragment;
-    "partner(address)": FunctionFragment;
-    "players(address)": FunctionFragment;
-    "win(address,uint256)": FunctionFragment;
+    "_seasonLogs(uint256,address)": FunctionFragment;
+    "userRecords(address)": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic:
-      | "games"
-      | "join"
-      | "joinedCounts"
-      | "partner"
-      | "players"
-      | "win"
+    nameOrSignatureOrTopic: "_seasonLogs" | "userRecords"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "games",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+    functionFragment: "_seasonLogs",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "join",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "joinedCounts",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "partner",
+    functionFragment: "userRecords",
     values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "players",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "win",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
 
-  decodeFunctionResult(functionFragment: "games", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "join", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "joinedCounts",
+    functionFragment: "_seasonLogs",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "partner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "players", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "win", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "userRecords",
+    data: BytesLike
+  ): Result;
 
   events: {};
 }
@@ -120,212 +91,91 @@ export interface UserCenter extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    games(
-      arg0: PromiseOrValue<string>,
+    _seasonLogs(
+      arg0: PromiseOrValue<BigNumberish>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    >;
+    ): Promise<[BigNumber, BigNumber] & { wins: BigNumber; joined: BigNumber }>;
 
-    join(
+    userRecords(
       user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    joinedCounts(
-      game: PromiseOrValue<string>,
-      user: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[number]>;
-
-    partner(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    players(
-      arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
+      [
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
+      ] & {
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
       }
     >;
-
-    win(
-      user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
   };
 
-  games(
-    arg0: PromiseOrValue<string>,
+  _seasonLogs(
+    arg0: PromiseOrValue<BigNumberish>,
     arg1: PromiseOrValue<string>,
     overrides?: CallOverrides
-  ): Promise<
-    [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-      joined: IUserCenter.StatisticStructOutput;
-      won: IUserCenter.StatisticStructOutput;
-    }
-  >;
+  ): Promise<[BigNumber, BigNumber] & { wins: BigNumber; joined: BigNumber }>;
 
-  join(
+  userRecords(
     user: PromiseOrValue<string>,
-    amount: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  joinedCounts(
-    game: PromiseOrValue<string>,
-    user: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<number>;
-
-  partner(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  players(
-    arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<
-    [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-      joined: IUserCenter.StatisticStructOutput;
-      won: IUserCenter.StatisticStructOutput;
+    [
+      IUserCenter.PlayerStatisticsStructOutput,
+      IUserCenter.PlayerStatisticsStructOutput
+    ] & {
+      current: IUserCenter.PlayerStatisticsStructOutput;
+      overall: IUserCenter.PlayerStatisticsStructOutput;
     }
   >;
-
-  win(
-    user: PromiseOrValue<string>,
-    amount: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
 
   callStatic: {
-    games(
-      arg0: PromiseOrValue<string>,
+    _seasonLogs(
+      arg0: PromiseOrValue<BigNumberish>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
-      }
-    >;
+    ): Promise<[BigNumber, BigNumber] & { wins: BigNumber; joined: BigNumber }>;
 
-    join(
+    userRecords(
       user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    joinedCounts(
-      game: PromiseOrValue<string>,
-      user: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<number>;
-
-    partner(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    players(
-      arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [IUserCenter.StatisticStructOutput, IUserCenter.StatisticStructOutput] & {
-        joined: IUserCenter.StatisticStructOutput;
-        won: IUserCenter.StatisticStructOutput;
+      [
+        IUserCenter.PlayerStatisticsStructOutput,
+        IUserCenter.PlayerStatisticsStructOutput
+      ] & {
+        current: IUserCenter.PlayerStatisticsStructOutput;
+        overall: IUserCenter.PlayerStatisticsStructOutput;
       }
     >;
-
-    win(
-      user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
   filters: {};
 
   estimateGas: {
-    games(
-      arg0: PromiseOrValue<string>,
+    _seasonLogs(
+      arg0: PromiseOrValue<BigNumberish>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    join(
-      user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    joinedCounts(
-      game: PromiseOrValue<string>,
+    userRecords(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    partner(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    players(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    win(
-      user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    games(
-      arg0: PromiseOrValue<string>,
+    _seasonLogs(
+      arg0: PromiseOrValue<BigNumberish>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    join(
-      user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    joinedCounts(
-      game: PromiseOrValue<string>,
+    userRecords(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    partner(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    players(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    win(
-      user: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

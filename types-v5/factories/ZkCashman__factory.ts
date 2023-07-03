@@ -169,6 +169,35 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "_seasonLogs",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "wins",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "joined",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "account",
         type: "address",
@@ -203,59 +232,6 @@ const _abi = [
     name: "addTransferer",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "games",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint32",
-            name: "count",
-            type: "uint32",
-          },
-          {
-            internalType: "uint224",
-            name: "total",
-            type: "uint224",
-          },
-        ],
-        internalType: "struct IUserCenter.Statistic",
-        name: "joined",
-        type: "tuple",
-      },
-      {
-        components: [
-          {
-            internalType: "uint32",
-            name: "count",
-            type: "uint32",
-          },
-          {
-            internalType: "uint224",
-            name: "total",
-            type: "uint224",
-          },
-        ],
-        internalType: "struct IUserCenter.Statistic",
-        name: "won",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -340,115 +316,6 @@ const _abi = [
         internalType: "bool",
         name: "",
         type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "join",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "game",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-    ],
-    name: "joinedCounts",
-    outputs: [
-      {
-        internalType: "uint32",
-        name: "",
-        type: "uint32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "partner",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "players",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint32",
-            name: "count",
-            type: "uint32",
-          },
-          {
-            internalType: "uint224",
-            name: "total",
-            type: "uint224",
-          },
-        ],
-        internalType: "struct IUserCenter.Statistic",
-        name: "joined",
-        type: "tuple",
-      },
-      {
-        components: [
-          {
-            internalType: "uint32",
-            name: "count",
-            type: "uint32",
-          },
-          {
-            internalType: "uint224",
-            name: "total",
-            type: "uint224",
-          },
-        ],
-        internalType: "struct IUserCenter.Statistic",
-        name: "won",
-        type: "tuple",
       },
     ],
     stateMutability: "view",
@@ -622,6 +489,54 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "userRecords",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "wins",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "joined",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct IUserCenter.PlayerStatistics",
+        name: "current",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "wins",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "joined",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct IUserCenter.PlayerStatistics",
+        name: "overall",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "version",
     outputs: [
@@ -632,24 +547,6 @@ const _abi = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "win",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ];
