@@ -47,6 +47,7 @@ export declare namespace IBingoRoom {
 
   export type RecentGameStruct = {
     gameId: BigNumberish;
+    status: string;
     winner: AddressLike;
     cardNumbers: BigNumberish[][];
     selectedNumbers: BigNumberish[];
@@ -55,12 +56,14 @@ export declare namespace IBingoRoom {
 
   export type RecentGameStructOutput = [
     gameId: bigint,
+    status: string,
     winner: string,
     cardNumbers: bigint[][],
     selectedNumbers: bigint[],
     players: IBingoRoom.ParticipantStructOutput[]
   ] & {
     gameId: bigint;
+    status: string;
     winner: string;
     cardNumbers: bigint[][];
     selectedNumbers: bigint[];
@@ -84,7 +87,6 @@ export interface ZkBingoLobbyInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "GAME_REWARD_FEE"
-      | "MAX_GAME_DURATION"
       | "NAME"
       | "RECENT_GAME_COUNTS"
       | "ROUND_DURATION"
@@ -113,6 +115,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "renounceOwnership"
       | "selectAndBingo"
       | "selectNumber"
+      | "setMaxGameDuration"
       | "setReward"
       | "start"
       | "summary"
@@ -128,6 +131,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "AdminChanged"
       | "BeaconUpgraded"
       | "Bingo"
+      | "GameHalted"
       | "GameParticipated"
       | "GameStarted"
       | "Initialized"
@@ -141,10 +145,6 @@ export interface ZkBingoLobbyInterface extends Interface {
 
   encodeFunctionData(
     functionFragment: "GAME_REWARD_FEE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "MAX_GAME_DURATION",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "NAME", values?: undefined): string;
@@ -246,6 +246,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "setMaxGameDuration",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setReward",
     values: [AddressLike]
   ): string;
@@ -271,10 +275,6 @@ export interface ZkBingoLobbyInterface extends Interface {
 
   decodeFunctionResult(
     functionFragment: "GAME_REWARD_FEE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "MAX_GAME_DURATION",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "NAME", data: BytesLike): Result;
@@ -356,6 +356,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "selectNumber",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "setMaxGameDuration",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "setReward", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
@@ -415,6 +419,24 @@ export namespace BingoEvent {
     gameId: bigint;
     player: string;
     playerCardNumbers: bigint[][];
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace GameHaltedEvent {
+  export type InputTuple = [
+    gameId: BigNumberish,
+    user: AddressLike,
+    isOvertime: boolean
+  ];
+  export type OutputTuple = [gameId: bigint, user: string, isOvertime: boolean];
+  export interface OutputObject {
+    gameId: bigint;
+    user: string;
+    isOvertime: boolean;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -604,8 +626,6 @@ export interface ZkBingoLobby extends BaseContract {
 
   GAME_REWARD_FEE: TypedContractMethod<[], [bigint], "view">;
 
-  MAX_GAME_DURATION: TypedContractMethod<[], [bigint], "view">;
-
   NAME: TypedContractMethod<[], [string], "view">;
 
   RECENT_GAME_COUNTS: TypedContractMethod<[], [bigint], "view">;
@@ -746,6 +766,12 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
 
+  setMaxGameDuration: TypedContractMethod<
+    [duration: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
   setReward: TypedContractMethod<
     [newReward: AddressLike],
     [void],
@@ -806,9 +832,6 @@ export interface ZkBingoLobby extends BaseContract {
 
   getFunction(
     nameOrSignature: "GAME_REWARD_FEE"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "MAX_GAME_DURATION"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "NAME"
@@ -975,6 +998,9 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "setMaxGameDuration"
+  ): TypedContractMethod<[duration: BigNumberish], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "setReward"
   ): TypedContractMethod<[newReward: AddressLike], [void], "nonpayable">;
   getFunction(
@@ -1049,6 +1075,13 @@ export interface ZkBingoLobby extends BaseContract {
     BingoEvent.InputTuple,
     BingoEvent.OutputTuple,
     BingoEvent.OutputObject
+  >;
+  getEvent(
+    key: "GameHalted"
+  ): TypedContractEvent<
+    GameHaltedEvent.InputTuple,
+    GameHaltedEvent.OutputTuple,
+    GameHaltedEvent.OutputObject
   >;
   getEvent(
     key: "GameParticipated"
@@ -1146,6 +1179,17 @@ export interface ZkBingoLobby extends BaseContract {
       BingoEvent.InputTuple,
       BingoEvent.OutputTuple,
       BingoEvent.OutputObject
+    >;
+
+    "GameHalted(uint256,address,bool)": TypedContractEvent<
+      GameHaltedEvent.InputTuple,
+      GameHaltedEvent.OutputTuple,
+      GameHaltedEvent.OutputObject
+    >;
+    GameHalted: TypedContractEvent<
+      GameHaltedEvent.InputTuple,
+      GameHaltedEvent.OutputTuple,
+      GameHaltedEvent.OutputObject
     >;
 
     "GameParticipated(uint256,address,uint256,uint8)": TypedContractEvent<

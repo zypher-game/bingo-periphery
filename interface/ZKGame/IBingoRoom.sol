@@ -53,6 +53,12 @@ interface IBingoRoom {
         address indexed oldReward
     );
 
+    event GameHalted(
+        uint256 indexed gameId,
+        address indexed user,
+        bool isOvertime
+    );
+
     function gameCard() external view returns (address);
 
     function expectedLines() external view returns (uint8);
@@ -107,6 +113,7 @@ interface IBingoRoom {
 
     struct RecentGame {
         uint256 gameId;
+        string status;
         address winner;
         uint8[][] cardNumbers;
         uint8[] selectedNumbers;

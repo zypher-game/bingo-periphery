@@ -47,6 +47,7 @@ export declare namespace IBingoRoom {
 
   export type RecentGameStruct = {
     gameId: BigNumberish;
+    status: string;
     winner: AddressLike;
     cardNumbers: BigNumberish[][];
     selectedNumbers: BigNumberish[];
@@ -55,12 +56,14 @@ export declare namespace IBingoRoom {
 
   export type RecentGameStructOutput = [
     gameId: bigint,
+    status: string,
     winner: string,
     cardNumbers: bigint[][],
     selectedNumbers: bigint[],
     players: IBingoRoom.ParticipantStructOutput[]
   ] & {
     gameId: bigint;
+    status: string;
     winner: string;
     cardNumbers: bigint[][];
     selectedNumbers: bigint[];
@@ -71,7 +74,6 @@ export declare namespace IBingoRoom {
 export interface BingoGameRoomInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "MAX_GAME_DURATION"
       | "RECENT_GAME_COUNTS"
       | "ROUND_DURATION"
       | "ROUND_TIMEOUT"
@@ -93,16 +95,13 @@ export interface BingoGameRoomInterface extends Interface {
   getEvent(
     nameOrSignatureOrTopic:
       | "Bingo"
+      | "GameHalted"
       | "GameParticipated"
       | "GameStarted"
       | "NumberSelected"
       | "RewardChanged"
   ): EventFragment;
 
-  encodeFunctionData(
-    functionFragment: "MAX_GAME_DURATION",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "RECENT_GAME_COUNTS",
     values?: undefined
@@ -159,10 +158,6 @@ export interface BingoGameRoomInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
 
-  decodeFunctionResult(
-    functionFragment: "MAX_GAME_DURATION",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "RECENT_GAME_COUNTS",
     data: BytesLike
@@ -232,6 +227,24 @@ export namespace BingoEvent {
     gameId: bigint;
     player: string;
     playerCardNumbers: bigint[][];
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace GameHaltedEvent {
+  export type InputTuple = [
+    gameId: BigNumberish,
+    user: AddressLike,
+    isOvertime: boolean
+  ];
+  export type OutputTuple = [gameId: bigint, user: string, isOvertime: boolean];
+  export interface OutputObject {
+    gameId: bigint;
+    user: string;
+    isOvertime: boolean;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -358,8 +371,6 @@ export interface BingoGameRoom extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  MAX_GAME_DURATION: TypedContractMethod<[], [bigint], "view">;
-
   RECENT_GAME_COUNTS: TypedContractMethod<[], [bigint], "view">;
 
   ROUND_DURATION: TypedContractMethod<[], [bigint], "view">;
@@ -475,9 +486,6 @@ export interface BingoGameRoom extends BaseContract {
     key: string | FunctionFragment
   ): T;
 
-  getFunction(
-    nameOrSignature: "MAX_GAME_DURATION"
-  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "RECENT_GAME_COUNTS"
   ): TypedContractMethod<[], [bigint], "view">;
@@ -610,6 +618,13 @@ export interface BingoGameRoom extends BaseContract {
     BingoEvent.OutputObject
   >;
   getEvent(
+    key: "GameHalted"
+  ): TypedContractEvent<
+    GameHaltedEvent.InputTuple,
+    GameHaltedEvent.OutputTuple,
+    GameHaltedEvent.OutputObject
+  >;
+  getEvent(
     key: "GameParticipated"
   ): TypedContractEvent<
     GameParticipatedEvent.InputTuple,
@@ -648,6 +663,17 @@ export interface BingoGameRoom extends BaseContract {
       BingoEvent.InputTuple,
       BingoEvent.OutputTuple,
       BingoEvent.OutputObject
+    >;
+
+    "GameHalted(uint256,address,bool)": TypedContractEvent<
+      GameHaltedEvent.InputTuple,
+      GameHaltedEvent.OutputTuple,
+      GameHaltedEvent.OutputObject
+    >;
+    GameHalted: TypedContractEvent<
+      GameHaltedEvent.InputTuple,
+      GameHaltedEvent.OutputTuple,
+      GameHaltedEvent.OutputObject
     >;
 
     "GameParticipated(uint256,address,uint256,uint8)": TypedContractEvent<

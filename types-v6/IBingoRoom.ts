@@ -47,6 +47,7 @@ export declare namespace IBingoRoom {
 
   export type RecentGameStruct = {
     gameId: BigNumberish;
+    status: string;
     winner: AddressLike;
     cardNumbers: BigNumberish[][];
     selectedNumbers: BigNumberish[];
@@ -55,12 +56,14 @@ export declare namespace IBingoRoom {
 
   export type RecentGameStructOutput = [
     gameId: bigint,
+    status: string,
     winner: string,
     cardNumbers: bigint[][],
     selectedNumbers: bigint[],
     players: IBingoRoom.ParticipantStructOutput[]
   ] & {
     gameId: bigint;
+    status: string;
     winner: string;
     cardNumbers: bigint[][];
     selectedNumbers: bigint[];
@@ -88,6 +91,7 @@ export interface IBingoRoomInterface extends Interface {
   getEvent(
     nameOrSignatureOrTopic:
       | "Bingo"
+      | "GameHalted"
       | "GameParticipated"
       | "GameStarted"
       | "NumberSelected"
@@ -187,6 +191,24 @@ export namespace BingoEvent {
     gameId: bigint;
     player: string;
     playerCardNumbers: bigint[][];
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace GameHaltedEvent {
+  export type InputTuple = [
+    gameId: BigNumberish,
+    user: AddressLike,
+    isOvertime: boolean
+  ];
+  export type OutputTuple = [gameId: bigint, user: string, isOvertime: boolean];
+  export interface OutputObject {
+    gameId: bigint;
+    user: string;
+    isOvertime: boolean;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -532,6 +554,13 @@ export interface IBingoRoom extends BaseContract {
     BingoEvent.OutputObject
   >;
   getEvent(
+    key: "GameHalted"
+  ): TypedContractEvent<
+    GameHaltedEvent.InputTuple,
+    GameHaltedEvent.OutputTuple,
+    GameHaltedEvent.OutputObject
+  >;
+  getEvent(
     key: "GameParticipated"
   ): TypedContractEvent<
     GameParticipatedEvent.InputTuple,
@@ -570,6 +599,17 @@ export interface IBingoRoom extends BaseContract {
       BingoEvent.InputTuple,
       BingoEvent.OutputTuple,
       BingoEvent.OutputObject
+    >;
+
+    "GameHalted(uint256,address,bool)": TypedContractEvent<
+      GameHaltedEvent.InputTuple,
+      GameHaltedEvent.OutputTuple,
+      GameHaltedEvent.OutputObject
+    >;
+    GameHalted: TypedContractEvent<
+      GameHaltedEvent.InputTuple,
+      GameHaltedEvent.OutputTuple,
+      GameHaltedEvent.OutputObject
     >;
 
     "GameParticipated(uint256,address,uint256,uint8)": TypedContractEvent<

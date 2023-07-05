@@ -36,6 +36,31 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isOvertime",
+        "type": "bool"
+      }
+    ],
+    "name": "GameHalted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "gameId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "player",
         "type": "address"
       },
@@ -335,6 +360,11 @@
             "type": "uint256"
           },
           {
+            "internalType": "string",
+            "name": "status",
+            "type": "string"
+          },
+          {
             "internalType": "address",
             "name": "winner",
             "type": "address"
@@ -391,6 +421,11 @@
             "internalType": "uint256",
             "name": "gameId",
             "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "status",
+            "type": "string"
           },
           {
             "internalType": "address",

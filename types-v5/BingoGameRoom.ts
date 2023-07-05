@@ -54,6 +54,7 @@ export declare namespace IBingoRoom {
 
   export type RecentGameStruct = {
     gameId: PromiseOrValue<BigNumberish>;
+    status: PromiseOrValue<string>;
     winner: PromiseOrValue<string>;
     cardNumbers: PromiseOrValue<BigNumberish>[][];
     selectedNumbers: PromiseOrValue<BigNumberish>[];
@@ -63,11 +64,13 @@ export declare namespace IBingoRoom {
   export type RecentGameStructOutput = [
     BigNumber,
     string,
+    string,
     number[][],
     number[],
     IBingoRoom.ParticipantStructOutput[]
   ] & {
     gameId: BigNumber;
+    status: string;
     winner: string;
     cardNumbers: number[][];
     selectedNumbers: number[];
@@ -77,7 +80,6 @@ export declare namespace IBingoRoom {
 
 export interface BingoGameRoomInterface extends utils.Interface {
   functions: {
-    "MAX_GAME_DURATION()": FunctionFragment;
     "RECENT_GAME_COUNTS()": FunctionFragment;
     "ROUND_DURATION()": FunctionFragment;
     "ROUND_TIMEOUT()": FunctionFragment;
@@ -98,7 +100,6 @@ export interface BingoGameRoomInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "MAX_GAME_DURATION"
       | "RECENT_GAME_COUNTS"
       | "ROUND_DURATION"
       | "ROUND_TIMEOUT"
@@ -117,10 +118,6 @@ export interface BingoGameRoomInterface extends utils.Interface {
       | "summary"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "MAX_GAME_DURATION",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "RECENT_GAME_COUNTS",
     values?: undefined
@@ -187,10 +184,6 @@ export interface BingoGameRoomInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
 
   decodeFunctionResult(
-    functionFragment: "MAX_GAME_DURATION",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "RECENT_GAME_COUNTS",
     data: BytesLike
   ): Result;
@@ -245,6 +238,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
 
   events: {
     "Bingo(uint256,address,uint8[][])": EventFragment;
+    "GameHalted(uint256,address,bool)": EventFragment;
     "GameParticipated(uint256,address,uint256,uint8)": EventFragment;
     "GameStarted(uint256,address)": EventFragment;
     "NumberSelected(uint256,uint32,address,uint8)": EventFragment;
@@ -252,6 +246,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
   };
 
   getEvent(nameOrSignatureOrTopic: "Bingo"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "GameHalted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "GameParticipated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "GameStarted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NumberSelected"): EventFragment;
@@ -269,6 +264,18 @@ export type BingoEvent = TypedEvent<
 >;
 
 export type BingoEventFilter = TypedEventFilter<BingoEvent>;
+
+export interface GameHaltedEventObject {
+  gameId: BigNumber;
+  user: string;
+  isOvertime: boolean;
+}
+export type GameHaltedEvent = TypedEvent<
+  [BigNumber, string, boolean],
+  GameHaltedEventObject
+>;
+
+export type GameHaltedEventFilter = TypedEventFilter<GameHaltedEvent>;
 
 export interface GameParticipatedEventObject {
   gameId: BigNumber;
@@ -346,8 +353,6 @@ export interface BingoGameRoom extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    MAX_GAME_DURATION(overrides?: CallOverrides): Promise<[number]>;
-
     RECENT_GAME_COUNTS(overrides?: CallOverrides): Promise<[number]>;
 
     ROUND_DURATION(overrides?: CallOverrides): Promise<[number]>;
@@ -457,8 +462,6 @@ export interface BingoGameRoom extends BaseContract {
     >;
   };
 
-  MAX_GAME_DURATION(overrides?: CallOverrides): Promise<number>;
-
   RECENT_GAME_COUNTS(overrides?: CallOverrides): Promise<number>;
 
   ROUND_DURATION(overrides?: CallOverrides): Promise<number>;
@@ -552,8 +555,6 @@ export interface BingoGameRoom extends BaseContract {
   >;
 
   callStatic: {
-    MAX_GAME_DURATION(overrides?: CallOverrides): Promise<number>;
-
     RECENT_GAME_COUNTS(overrides?: CallOverrides): Promise<number>;
 
     ROUND_DURATION(overrides?: CallOverrides): Promise<number>;
@@ -663,6 +664,17 @@ export interface BingoGameRoom extends BaseContract {
       playerCardNumbers?: null
     ): BingoEventFilter;
 
+    "GameHalted(uint256,address,bool)"(
+      gameId?: PromiseOrValue<BigNumberish> | null,
+      user?: PromiseOrValue<string> | null,
+      isOvertime?: null
+    ): GameHaltedEventFilter;
+    GameHalted(
+      gameId?: PromiseOrValue<BigNumberish> | null,
+      user?: PromiseOrValue<string> | null,
+      isOvertime?: null
+    ): GameHaltedEventFilter;
+
     "GameParticipated(uint256,address,uint256,uint8)"(
       gameId?: PromiseOrValue<BigNumberish> | null,
       player?: PromiseOrValue<string> | null,
@@ -709,8 +721,6 @@ export interface BingoGameRoom extends BaseContract {
   };
 
   estimateGas: {
-    MAX_GAME_DURATION(overrides?: CallOverrides): Promise<BigNumber>;
-
     RECENT_GAME_COUNTS(overrides?: CallOverrides): Promise<BigNumber>;
 
     ROUND_DURATION(overrides?: CallOverrides): Promise<BigNumber>;
@@ -779,8 +789,6 @@ export interface BingoGameRoom extends BaseContract {
   };
 
   populateTransaction: {
-    MAX_GAME_DURATION(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     RECENT_GAME_COUNTS(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

@@ -54,6 +54,7 @@ export declare namespace IBingoRoom {
 
   export type RecentGameStruct = {
     gameId: PromiseOrValue<BigNumberish>;
+    status: PromiseOrValue<string>;
     winner: PromiseOrValue<string>;
     cardNumbers: PromiseOrValue<BigNumberish>[][];
     selectedNumbers: PromiseOrValue<BigNumberish>[];
@@ -63,11 +64,13 @@ export declare namespace IBingoRoom {
   export type RecentGameStructOutput = [
     BigNumber,
     string,
+    string,
     number[][],
     number[],
     IBingoRoom.ParticipantStructOutput[]
   ] & {
     gameId: BigNumber;
+    status: string;
     winner: string;
     cardNumbers: number[][];
     selectedNumbers: number[];
@@ -195,6 +198,7 @@ export interface IBingoRoomInterface extends utils.Interface {
 
   events: {
     "Bingo(uint256,address,uint8[][])": EventFragment;
+    "GameHalted(uint256,address,bool)": EventFragment;
     "GameParticipated(uint256,address,uint256,uint8)": EventFragment;
     "GameStarted(uint256,address)": EventFragment;
     "NumberSelected(uint256,uint32,address,uint8)": EventFragment;
@@ -202,6 +206,7 @@ export interface IBingoRoomInterface extends utils.Interface {
   };
 
   getEvent(nameOrSignatureOrTopic: "Bingo"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "GameHalted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "GameParticipated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "GameStarted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NumberSelected"): EventFragment;
@@ -219,6 +224,18 @@ export type BingoEvent = TypedEvent<
 >;
 
 export type BingoEventFilter = TypedEventFilter<BingoEvent>;
+
+export interface GameHaltedEventObject {
+  gameId: BigNumber;
+  user: string;
+  isOvertime: boolean;
+}
+export type GameHaltedEvent = TypedEvent<
+  [BigNumber, string, boolean],
+  GameHaltedEventObject
+>;
+
+export type GameHaltedEventFilter = TypedEventFilter<GameHaltedEvent>;
 
 export interface GameParticipatedEventObject {
   gameId: BigNumber;
@@ -569,6 +586,17 @@ export interface IBingoRoom extends BaseContract {
       player?: PromiseOrValue<string> | null,
       playerCardNumbers?: null
     ): BingoEventFilter;
+
+    "GameHalted(uint256,address,bool)"(
+      gameId?: PromiseOrValue<BigNumberish> | null,
+      user?: PromiseOrValue<string> | null,
+      isOvertime?: null
+    ): GameHaltedEventFilter;
+    GameHalted(
+      gameId?: PromiseOrValue<BigNumberish> | null,
+      user?: PromiseOrValue<string> | null,
+      isOvertime?: null
+    ): GameHaltedEventFilter;
 
     "GameParticipated(uint256,address,uint256,uint8)"(
       gameId?: PromiseOrValue<BigNumberish> | null,

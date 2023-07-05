@@ -75,6 +75,31 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "isOvertime",
+        type: "bool",
+      },
+    ],
+    name: "GameHalted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "gameId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
         name: "player",
         type: "address",
       },
@@ -242,19 +267,6 @@ const _abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "MAX_GAME_DURATION",
-    outputs: [
-      {
-        internalType: "uint32",
-        name: "",
-        type: "uint32",
       },
     ],
     stateMutability: "view",
@@ -735,6 +747,11 @@ const _abi = [
             type: "uint256",
           },
           {
+            internalType: "string",
+            name: "status",
+            type: "string",
+          },
+          {
             internalType: "address",
             name: "winner",
             type: "address",
@@ -804,6 +821,11 @@ const _abi = [
             internalType: "uint256",
             name: "gameId",
             type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "status",
+            type: "string",
           },
           {
             internalType: "address",
@@ -895,6 +917,19 @@ const _abi = [
       },
     ],
     name: "selectNumber",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint32",
+        name: "duration",
+        type: "uint32",
+      },
+    ],
+    name: "setMaxGameDuration",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

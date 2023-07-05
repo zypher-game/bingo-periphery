@@ -43,6 +43,31 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "isOvertime",
+        type: "bool",
+      },
+    ],
+    name: "GameHalted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "gameId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
         name: "player",
         type: "address",
       },
@@ -342,6 +367,11 @@ const _abi = [
             type: "uint256",
           },
           {
+            internalType: "string",
+            name: "status",
+            type: "string",
+          },
+          {
             internalType: "address",
             name: "winner",
             type: "address",
@@ -398,6 +428,11 @@ const _abi = [
             internalType: "uint256",
             name: "gameId",
             type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "status",
+            type: "string",
           },
           {
             internalType: "address",
