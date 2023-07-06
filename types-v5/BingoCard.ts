@@ -33,6 +33,7 @@ export interface BingoCardInterface extends utils.Interface {
     "addMinter(address)": FunctionFragment;
     "bindCardGame(uint256,address,uint256)": FunctionFragment;
     "calculateMatchedLineCounts(uint8[][],uint256)": FunctionFragment;
+    "cardSignaturePrefix()": FunctionFragment;
     "columns()": FunctionFragment;
     "decodeCardNumbers(bytes)": FunctionFragment;
     "decodeMarkedSpaces(uint256)": FunctionFragment;
@@ -65,6 +66,7 @@ export interface BingoCardInterface extends utils.Interface {
       | "addMinter"
       | "bindCardGame"
       | "calculateMatchedLineCounts"
+      | "cardSignaturePrefix"
       | "columns"
       | "decodeCardNumbers"
       | "decodeMarkedSpaces"
@@ -114,6 +116,10 @@ export interface BingoCardInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "calculateMatchedLineCounts",
     values: [PromiseOrValue<BigNumberish>[][], PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "cardSignaturePrefix",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "columns", values?: undefined): string;
   encodeFunctionData(
@@ -228,6 +234,10 @@ export interface BingoCardInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "calculateMatchedLineCounts",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "cardSignaturePrefix",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "columns", data: BytesLike): Result;
@@ -377,6 +387,8 @@ export interface BingoCard extends BaseContract {
       selectedNumbers: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number] & { lineCounts: number }>;
+
+    cardSignaturePrefix(overrides?: CallOverrides): Promise<[string]>;
 
     columns(overrides?: CallOverrides): Promise<[number]>;
 
@@ -533,6 +545,8 @@ export interface BingoCard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<number>;
 
+  cardSignaturePrefix(overrides?: CallOverrides): Promise<string>;
+
   columns(overrides?: CallOverrides): Promise<number>;
 
   decodeCardNumbers(
@@ -685,6 +699,8 @@ export interface BingoCard extends BaseContract {
       selectedNumbers: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
+
+    cardSignaturePrefix(overrides?: CallOverrides): Promise<string>;
 
     columns(overrides?: CallOverrides): Promise<number>;
 
@@ -857,6 +873,8 @@ export interface BingoCard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    cardSignaturePrefix(overrides?: CallOverrides): Promise<BigNumber>;
+
     columns(overrides?: CallOverrides): Promise<BigNumber>;
 
     decodeCardNumbers(
@@ -1008,6 +1026,10 @@ export interface BingoCard extends BaseContract {
     calculateMatchedLineCounts(
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       selectedNumbers: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    cardSignaturePrefix(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

@@ -3,7 +3,6 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumberish,
   BytesLike,
   FunctionFragment,
   Result,
@@ -21,22 +20,19 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export interface IRewardInterface extends Interface {
+export interface RewardableInterface extends Interface {
   getFunction(nameOrSignature: "mint"): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "mint",
-    values: [AddressLike, BigNumberish]
-  ): string;
+  encodeFunctionData(functionFragment: "mint", values: [AddressLike]): string;
 
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
 }
 
-export interface IReward extends BaseContract {
-  connect(runner?: ContractRunner | null): IReward;
+export interface Rewardable extends BaseContract {
+  connect(runner?: ContractRunner | null): Rewardable;
   waitForDeployment(): Promise<this>;
 
-  interface: IRewardInterface;
+  interface: RewardableInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -75,11 +71,7 @@ export interface IReward extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  mint: TypedContractMethod<
-    [to: AddressLike, rewardId: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+  mint: TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
@@ -87,11 +79,7 @@ export interface IReward extends BaseContract {
 
   getFunction(
     nameOrSignature: "mint"
-  ): TypedContractMethod<
-    [to: AddressLike, rewardId: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+  ): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
 
   filters: {};
 }

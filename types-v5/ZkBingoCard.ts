@@ -36,6 +36,7 @@ export interface ZkBingoCardInterface extends utils.Interface {
     "bindCardGame(uint256,address,uint256)": FunctionFragment;
     "bindGame()": FunctionFragment;
     "calculateMatchedLineCounts(uint8[][],uint256)": FunctionFragment;
+    "cardSignaturePrefix()": FunctionFragment;
     "columns()": FunctionFragment;
     "decodeCardNumbers(bytes)": FunctionFragment;
     "decodeMarkedSpaces(uint256)": FunctionFragment;
@@ -89,6 +90,7 @@ export interface ZkBingoCardInterface extends utils.Interface {
       | "bindCardGame"
       | "bindGame"
       | "calculateMatchedLineCounts"
+      | "cardSignaturePrefix"
       | "columns"
       | "decodeCardNumbers"
       | "decodeMarkedSpaces"
@@ -165,6 +167,10 @@ export interface ZkBingoCardInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "calculateMatchedLineCounts",
     values: [PromiseOrValue<BigNumberish>[][], PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "cardSignaturePrefix",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "columns", values?: undefined): string;
   encodeFunctionData(
@@ -358,6 +364,10 @@ export interface ZkBingoCardInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "bindGame", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "calculateMatchedLineCounts",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "cardSignaturePrefix",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "columns", data: BytesLike): Result;
@@ -631,6 +641,8 @@ export interface ZkBingoCard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[number] & { lineCounts: number }>;
 
+    cardSignaturePrefix(overrides?: CallOverrides): Promise<[string]>;
+
     columns(overrides?: CallOverrides): Promise<[number]>;
 
     decodeCardNumbers(
@@ -883,6 +895,8 @@ export interface ZkBingoCard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<number>;
 
+  cardSignaturePrefix(overrides?: CallOverrides): Promise<string>;
+
   columns(overrides?: CallOverrides): Promise<number>;
 
   decodeCardNumbers(
@@ -1129,6 +1143,8 @@ export interface ZkBingoCard extends BaseContract {
       selectedNumbers: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
+
+    cardSignaturePrefix(overrides?: CallOverrides): Promise<string>;
 
     columns(overrides?: CallOverrides): Promise<number>;
 
@@ -1438,6 +1454,8 @@ export interface ZkBingoCard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    cardSignaturePrefix(overrides?: CallOverrides): Promise<BigNumber>;
+
     columns(overrides?: CallOverrides): Promise<BigNumber>;
 
     decodeCardNumbers(
@@ -1686,6 +1704,10 @@ export interface ZkBingoCard extends BaseContract {
     calculateMatchedLineCounts(
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       selectedNumbers: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    cardSignaturePrefix(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

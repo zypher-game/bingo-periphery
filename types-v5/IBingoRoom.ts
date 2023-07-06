@@ -332,10 +332,11 @@ export interface IBingoRoom extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [number, string, number] & {
+      [number, string, number, string] & {
         round: number;
         player: string;
         remain: number;
+        status: string;
       }
     >;
 
@@ -348,13 +349,15 @@ export interface IBingoRoom extends BaseContract {
         number,
         string,
         IBingoRoom.ParticipantStructOutput[],
-        IBingoRoom.GameRoundStructOutput[]
+        IBingoRoom.GameRoundStructOutput[],
+        string
       ] & {
         startedAt: number;
         endedAt: number;
         winner: string;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        status: string;
       }
     >;
 
@@ -426,7 +429,12 @@ export interface IBingoRoom extends BaseContract {
     gameId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<
-    [number, string, number] & { round: number; player: string; remain: number }
+    [number, string, number, string] & {
+      round: number;
+      player: string;
+      remain: number;
+      status: string;
+    }
   >;
 
   getGameInfo(
@@ -438,13 +446,15 @@ export interface IBingoRoom extends BaseContract {
       number,
       string,
       IBingoRoom.ParticipantStructOutput[],
-      IBingoRoom.GameRoundStructOutput[]
+      IBingoRoom.GameRoundStructOutput[],
+      string
     ] & {
       startedAt: number;
       endedAt: number;
       winner: string;
       players: IBingoRoom.ParticipantStructOutput[];
       rounds: IBingoRoom.GameRoundStructOutput[];
+      status: string;
     }
   >;
 
@@ -508,10 +518,11 @@ export interface IBingoRoom extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [number, string, number] & {
+      [number, string, number, string] & {
         round: number;
         player: string;
         remain: number;
+        status: string;
       }
     >;
 
@@ -524,13 +535,15 @@ export interface IBingoRoom extends BaseContract {
         number,
         string,
         IBingoRoom.ParticipantStructOutput[],
-        IBingoRoom.GameRoundStructOutput[]
+        IBingoRoom.GameRoundStructOutput[],
+        string
       ] & {
         startedAt: number;
         endedAt: number;
         winner: string;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        status: string;
       }
     >;
 

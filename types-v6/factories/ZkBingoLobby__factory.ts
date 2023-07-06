@@ -299,32 +299,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "ROUND_DURATION",
-    outputs: [
-      {
-        internalType: "uint32",
-        name: "",
-        type: "uint32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "ROUND_TIMEOUT",
-    outputs: [
-      {
-        internalType: "uint32",
-        name: "",
-        type: "uint32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -445,6 +419,11 @@ const _abi = [
         name: "remain",
         type: "uint32",
       },
+      {
+        internalType: "string",
+        name: "status",
+        type: "string",
+      },
     ],
     stateMutability: "view",
     type: "function",
@@ -517,6 +496,11 @@ const _abi = [
         internalType: "struct IBingoRoom.GameRound[]",
         name: "rounds",
         type: "tuple[]",
+      },
+      {
+        internalType: "string",
+        name: "status",
+        type: "string",
       },
     ],
     stateMutability: "view",
@@ -925,11 +909,31 @@ const _abi = [
     inputs: [
       {
         internalType: "uint32",
-        name: "duration",
+        name: "startTimeout",
+        type: "uint32",
+      },
+      {
+        internalType: "uint8",
+        name: "boostRounds",
+        type: "uint8",
+      },
+      {
+        internalType: "uint32",
+        name: "roundGap",
+        type: "uint32",
+      },
+      {
+        internalType: "uint32",
+        name: "roundTimeout",
+        type: "uint32",
+      },
+      {
+        internalType: "uint32",
+        name: "maxDuration",
         type: "uint32",
       },
     ],
-    name: "setMaxGameDuration",
+    name: "setGameTimers",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -940,6 +944,11 @@ const _abi = [
         internalType: "address",
         name: "newReward",
         type: "address",
+      },
+      {
+        internalType: "uint32",
+        name: "amount",
+        type: "uint32",
       },
     ],
     name: "setReward",
@@ -972,6 +981,46 @@ const _abi = [
         internalType: "uint256",
         name: "totalRewardDistributed",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "timer",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint32",
+            name: "startTimeout",
+            type: "uint32",
+          },
+          {
+            internalType: "uint8",
+            name: "boostRounds",
+            type: "uint8",
+          },
+          {
+            internalType: "uint32",
+            name: "roundGap",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "roundTimeout",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "maxDuration",
+            type: "uint32",
+          },
+        ],
+        internalType: "struct BingoGameRoom.GameTimeout",
+        name: "",
+        type: "tuple",
       },
     ],
     stateMutability: "view",

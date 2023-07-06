@@ -358,10 +358,11 @@ export interface IBingoRoom extends BaseContract {
   getCurrentRound: TypedContractMethod<
     [gameId: BigNumberish],
     [
-      [bigint, string, bigint] & {
+      [bigint, string, bigint, string] & {
         round: bigint;
         player: string;
         remain: bigint;
+        status: string;
       }
     ],
     "view"
@@ -375,13 +376,15 @@ export interface IBingoRoom extends BaseContract {
         bigint,
         string,
         IBingoRoom.ParticipantStructOutput[],
-        IBingoRoom.GameRoundStructOutput[]
+        IBingoRoom.GameRoundStructOutput[],
+        string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
         winner: string;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        status: string;
       }
     ],
     "view"
@@ -467,10 +470,11 @@ export interface IBingoRoom extends BaseContract {
   ): TypedContractMethod<
     [gameId: BigNumberish],
     [
-      [bigint, string, bigint] & {
+      [bigint, string, bigint, string] & {
         round: bigint;
         player: string;
         remain: bigint;
+        status: string;
       }
     ],
     "view"
@@ -485,13 +489,15 @@ export interface IBingoRoom extends BaseContract {
         bigint,
         string,
         IBingoRoom.ParticipantStructOutput[],
-        IBingoRoom.GameRoundStructOutput[]
+        IBingoRoom.GameRoundStructOutput[],
+        string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
         winner: string;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        status: string;
       }
     ],
     "view"

@@ -71,12 +71,34 @@ export declare namespace IBingoRoom {
   };
 }
 
+export declare namespace BingoGameRoom {
+  export type GameTimeoutStruct = {
+    startTimeout: BigNumberish;
+    boostRounds: BigNumberish;
+    roundGap: BigNumberish;
+    roundTimeout: BigNumberish;
+    maxDuration: BigNumberish;
+  };
+
+  export type GameTimeoutStructOutput = [
+    startTimeout: bigint,
+    boostRounds: bigint,
+    roundGap: bigint,
+    roundTimeout: bigint,
+    maxDuration: bigint
+  ] & {
+    startTimeout: bigint;
+    boostRounds: bigint;
+    roundGap: bigint;
+    roundTimeout: bigint;
+    maxDuration: bigint;
+  };
+}
+
 export interface BingoGameRoomInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "RECENT_GAME_COUNTS"
-      | "ROUND_DURATION"
-      | "ROUND_TIMEOUT"
       | "bingo"
       | "expectedLines"
       | "fee"
@@ -90,6 +112,7 @@ export interface BingoGameRoomInterface extends Interface {
       | "selectAndBingo"
       | "selectNumber"
       | "summary"
+      | "timer"
   ): FunctionFragment;
 
   getEvent(
@@ -104,14 +127,6 @@ export interface BingoGameRoomInterface extends Interface {
 
   encodeFunctionData(
     functionFragment: "RECENT_GAME_COUNTS",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ROUND_DURATION",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ROUND_TIMEOUT",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -157,17 +172,10 @@ export interface BingoGameRoomInterface extends Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
+  encodeFunctionData(functionFragment: "timer", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "RECENT_GAME_COUNTS",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "ROUND_DURATION",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "ROUND_TIMEOUT",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
@@ -210,6 +218,7 @@ export interface BingoGameRoomInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
 }
 
 export namespace BingoEvent {
@@ -373,10 +382,6 @@ export interface BingoGameRoom extends BaseContract {
 
   RECENT_GAME_COUNTS: TypedContractMethod<[], [bigint], "view">;
 
-  ROUND_DURATION: TypedContractMethod<[], [bigint], "view">;
-
-  ROUND_TIMEOUT: TypedContractMethod<[], [bigint], "view">;
-
   bingo: TypedContractMethod<
     [
       gameId: BigNumberish,
@@ -400,10 +405,11 @@ export interface BingoGameRoom extends BaseContract {
   getCurrentRound: TypedContractMethod<
     [gameId: BigNumberish],
     [
-      [bigint, string, bigint] & {
+      [bigint, string, bigint, string] & {
         round: bigint;
         player: string;
         remain: bigint;
+        status: string;
       }
     ],
     "view"
@@ -417,13 +423,15 @@ export interface BingoGameRoom extends BaseContract {
         bigint,
         string,
         IBingoRoom.ParticipantStructOutput[],
-        IBingoRoom.GameRoundStructOutput[]
+        IBingoRoom.GameRoundStructOutput[],
+        string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
         winner: string;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        status: string;
       }
     ],
     "view"
@@ -482,18 +490,18 @@ export interface BingoGameRoom extends BaseContract {
     "view"
   >;
 
+  timer: TypedContractMethod<
+    [],
+    [BingoGameRoom.GameTimeoutStructOutput],
+    "view"
+  >;
+
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
 
   getFunction(
     nameOrSignature: "RECENT_GAME_COUNTS"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "ROUND_DURATION"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "ROUND_TIMEOUT"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "bingo"
@@ -524,10 +532,11 @@ export interface BingoGameRoom extends BaseContract {
   ): TypedContractMethod<
     [gameId: BigNumberish],
     [
-      [bigint, string, bigint] & {
+      [bigint, string, bigint, string] & {
         round: bigint;
         player: string;
         remain: bigint;
+        status: string;
       }
     ],
     "view"
@@ -542,13 +551,15 @@ export interface BingoGameRoom extends BaseContract {
         bigint,
         string,
         IBingoRoom.ParticipantStructOutput[],
-        IBingoRoom.GameRoundStructOutput[]
+        IBingoRoom.GameRoundStructOutput[],
+        string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
         winner: string;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        status: string;
       }
     ],
     "view"
@@ -609,6 +620,9 @@ export interface BingoGameRoom extends BaseContract {
     ],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "timer"
+  ): TypedContractMethod<[], [BingoGameRoom.GameTimeoutStructOutput], "view">;
 
   getEvent(
     key: "Bingo"

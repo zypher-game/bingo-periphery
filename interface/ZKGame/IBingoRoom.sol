@@ -72,13 +72,15 @@ interface IBingoRoom {
         uint32 endedAt,
         address winner,
         Participant[] memory players,
-        GameRound[] memory rounds
+        GameRound[] memory rounds,
+        string memory status
     );
 
     function getCurrentRound(uint256 gameId) external view returns (
         uint32 round,
         address player,
-        uint32 remain
+        uint32 remain,
+        string memory status
     );
 
     function getSelectedNumbers(

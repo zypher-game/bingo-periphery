@@ -249,6 +249,11 @@ const _abi = [
         name: "remain",
         type: "uint32",
       },
+      {
+        internalType: "string",
+        name: "status",
+        type: "string",
+      },
     ],
     stateMutability: "view",
     type: "function",
@@ -321,6 +326,11 @@ const _abi = [
         internalType: "struct IBingoRoom.GameRound[]",
         name: "rounds",
         type: "tuple[]",
+      },
+      {
+        internalType: "string",
+        name: "status",
+        type: "string",
       },
     ],
     stateMutability: "view",

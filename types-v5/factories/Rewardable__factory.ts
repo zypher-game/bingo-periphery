@@ -4,7 +4,7 @@
 
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
-import type { IReward, IRewardInterface } from "../IReward";
+import type { Rewardable, RewardableInterface } from "../Rewardable";
 
 const _abi = [
   {
@@ -14,11 +14,6 @@ const _abi = [
         name: "to",
         type: "address",
       },
-      {
-        internalType: "uint256",
-        name: "rewardId",
-        type: "uint256",
-      },
     ],
     name: "mint",
     outputs: [],
@@ -27,15 +22,15 @@ const _abi = [
   },
 ];
 
-export class IReward__factory {
+export class Rewardable__factory {
   static readonly abi = _abi;
-  static createInterface(): IRewardInterface {
-    return new utils.Interface(_abi) as IRewardInterface;
+  static createInterface(): RewardableInterface {
+    return new utils.Interface(_abi) as RewardableInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): IReward {
-    return new Contract(address, _abi, signerOrProvider) as IReward;
+  ): Rewardable {
+    return new Contract(address, _abi, signerOrProvider) as Rewardable;
   }
 }

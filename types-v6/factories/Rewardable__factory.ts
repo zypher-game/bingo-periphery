@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type { IReward, IRewardInterface } from "../IReward";
+import type { Rewardable, RewardableInterface } from "../Rewardable";
 
 const _abi = [
   {
@@ -13,11 +13,6 @@ const _abi = [
         name: "to",
         type: "address",
       },
-      {
-        internalType: "uint256",
-        name: "rewardId",
-        type: "uint256",
-      },
     ],
     name: "mint",
     outputs: [],
@@ -26,12 +21,12 @@ const _abi = [
   },
 ] as const;
 
-export class IReward__factory {
+export class Rewardable__factory {
   static readonly abi = _abi;
-  static createInterface(): IRewardInterface {
-    return new Interface(_abi) as IRewardInterface;
+  static createInterface(): RewardableInterface {
+    return new Interface(_abi) as RewardableInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): IReward {
-    return new Contract(address, _abi, runner) as unknown as IReward;
+  static connect(address: string, runner?: ContractRunner | null): Rewardable {
+    return new Contract(address, _abi, runner) as unknown as Rewardable;
   }
 }

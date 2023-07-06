@@ -128,6 +128,19 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "cardSignaturePrefix",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "columns",
     outputs: [
       {

@@ -30,6 +30,7 @@ export interface BingoCardInterface extends Interface {
       | "addMinter"
       | "bindCardGame"
       | "calculateMatchedLineCounts"
+      | "cardSignaturePrefix"
       | "columns"
       | "decodeCardNumbers"
       | "decodeMarkedSpaces"
@@ -73,6 +74,10 @@ export interface BingoCardInterface extends Interface {
   encodeFunctionData(
     functionFragment: "calculateMatchedLineCounts",
     values: [BigNumberish[][], BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "cardSignaturePrefix",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "columns", values?: undefined): string;
   encodeFunctionData(
@@ -173,6 +178,10 @@ export interface BingoCardInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "calculateMatchedLineCounts",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "cardSignaturePrefix",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "columns", data: BytesLike): Result;
@@ -344,6 +353,8 @@ export interface BingoCard extends BaseContract {
     "view"
   >;
 
+  cardSignaturePrefix: TypedContractMethod<[], [string], "view">;
+
   columns: TypedContractMethod<[], [bigint], "view">;
 
   decodeCardNumbers: TypedContractMethod<
@@ -506,6 +517,9 @@ export interface BingoCard extends BaseContract {
     [bigint],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "cardSignaturePrefix"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "columns"
   ): TypedContractMethod<[], [bigint], "view">;

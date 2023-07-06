@@ -4,7 +4,6 @@
 import type {
   BaseContract,
   BigNumber,
-  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -23,16 +22,16 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface IRewardInterface extends utils.Interface {
+export interface RewardableInterface extends utils.Interface {
   functions: {
-    "mint(address,uint256)": FunctionFragment;
+    "mint(address)": FunctionFragment;
   };
 
   getFunction(nameOrSignatureOrTopic: "mint"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "mint",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<string>]
   ): string;
 
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
@@ -40,12 +39,12 @@ export interface IRewardInterface extends utils.Interface {
   events: {};
 }
 
-export interface IReward extends BaseContract {
+export interface Rewardable extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: IRewardInterface;
+  interface: RewardableInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -69,23 +68,17 @@ export interface IReward extends BaseContract {
   functions: {
     mint(
       to: PromiseOrValue<string>,
-      rewardId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
 
   mint(
     to: PromiseOrValue<string>,
-    rewardId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    mint(
-      to: PromiseOrValue<string>,
-      rewardId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    mint(to: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {};
@@ -93,7 +86,6 @@ export interface IReward extends BaseContract {
   estimateGas: {
     mint(
       to: PromiseOrValue<string>,
-      rewardId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -101,7 +93,6 @@ export interface IReward extends BaseContract {
   populateTransaction: {
     mint(
       to: PromiseOrValue<string>,
-      rewardId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
