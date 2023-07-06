@@ -78,7 +78,7 @@ export interface ZkBingoCardInterface extends utils.Interface {
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "verifySigner(uint256,bytes32,uint8[][],address)": FunctionFragment;
+    "verifySigner(uint256,bytes,uint8[][],address)": FunctionFragment;
   };
 
   getFunction(

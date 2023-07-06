@@ -55,7 +55,7 @@ export interface IBingoCardInterface extends utils.Interface {
     "setFreeSpaces(uint8[2][])": FunctionFragment;
     "setLines(uint8[2][][])": FunctionFragment;
     "setRestrictions(uint8[2][][])": FunctionFragment;
-    "verifySigner(uint256,bytes32,uint8[][],address)": FunctionFragment;
+    "verifySigner(uint256,bytes,uint8[][],address)": FunctionFragment;
   };
 
   getFunction(

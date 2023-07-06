@@ -86,7 +86,7 @@ interface IBingoCard {
 
     function verifySigner(
         uint256 cardId,
-        bytes32 salt,
+        bytes memory salt,
         uint8[][] memory cardNumbers,
         address signer
     ) external view returns (bool);

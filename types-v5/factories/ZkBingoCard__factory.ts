@@ -1049,9 +1049,9 @@ const _abi = [
         type: "uint256",
       },
       {
-        internalType: "bytes32",
+        internalType: "bytes",
         name: "salt",
-        type: "bytes32",
+        type: "bytes",
       },
       {
         internalType: "uint8[][]",
