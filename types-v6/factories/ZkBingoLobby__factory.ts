@@ -134,6 +134,12 @@ const _abi = [
         name: "cardContract",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "players",
+        type: "address[]",
+      },
     ],
     name: "GameStarted",
     type: "event",

@@ -25,7 +25,8 @@ interface IBingoRoom {
 
     event GameStarted(
         uint256 indexed gameId,
-        address cardContract
+        address cardContract,
+        address[] players
     );
 
     event GameParticipated(

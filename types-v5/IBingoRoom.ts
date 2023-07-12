@@ -200,7 +200,7 @@ export interface IBingoRoomInterface extends utils.Interface {
     "Bingo(uint256,address,uint8[][])": EventFragment;
     "GameHalted(uint256,address,bool)": EventFragment;
     "GameParticipated(uint256,address,uint256,uint8)": EventFragment;
-    "GameStarted(uint256,address)": EventFragment;
+    "GameStarted(uint256,address,address[])": EventFragment;
     "NumberSelected(uint256,uint32,address,uint8)": EventFragment;
     "RewardChanged(address,address)": EventFragment;
   };
@@ -254,9 +254,10 @@ export type GameParticipatedEventFilter =
 export interface GameStartedEventObject {
   gameId: BigNumber;
   cardContract: string;
+  players: string[];
 }
 export type GameStartedEvent = TypedEvent<
-  [BigNumber, string],
+  [BigNumber, string, string[]],
   GameStartedEventObject
 >;
 
@@ -624,13 +625,15 @@ export interface IBingoRoom extends BaseContract {
       position?: null
     ): GameParticipatedEventFilter;
 
-    "GameStarted(uint256,address)"(
+    "GameStarted(uint256,address,address[])"(
       gameId?: PromiseOrValue<BigNumberish> | null,
-      cardContract?: null
+      cardContract?: null,
+      players?: null
     ): GameStartedEventFilter;
     GameStarted(
       gameId?: PromiseOrValue<BigNumberish> | null,
-      cardContract?: null
+      cardContract?: null,
+      players?: null
     ): GameStartedEventFilter;
 
     "NumberSelected(uint256,uint32,address,uint8)"(

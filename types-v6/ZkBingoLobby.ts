@@ -485,11 +485,20 @@ export namespace GameParticipatedEvent {
 }
 
 export namespace GameStartedEvent {
-  export type InputTuple = [gameId: BigNumberish, cardContract: AddressLike];
-  export type OutputTuple = [gameId: bigint, cardContract: string];
+  export type InputTuple = [
+    gameId: BigNumberish,
+    cardContract: AddressLike,
+    players: AddressLike[]
+  ];
+  export type OutputTuple = [
+    gameId: bigint,
+    cardContract: string,
+    players: string[]
+  ];
   export interface OutputObject {
     gameId: bigint;
     cardContract: string;
+    players: string[];
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -1243,7 +1252,7 @@ export interface ZkBingoLobby extends BaseContract {
       GameParticipatedEvent.OutputObject
     >;
 
-    "GameStarted(uint256,address)": TypedContractEvent<
+    "GameStarted(uint256,address,address[])": TypedContractEvent<
       GameStartedEvent.InputTuple,
       GameStartedEvent.OutputTuple,
       GameStartedEvent.OutputObject
