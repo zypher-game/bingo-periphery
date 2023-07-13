@@ -83,6 +83,7 @@ export interface IBingoRoomInterface extends Interface {
       | "getSelectedNumbers"
       | "playedGames"
       | "recentGames"
+      | "restoreGame"
       | "selectAndBingo"
       | "selectNumber"
       | "summary"
@@ -129,6 +130,10 @@ export interface IBingoRoomInterface extends Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "restoreGame",
+    values: [AddressLike, BigNumberish[][], BytesLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "selectAndBingo",
     values: [BigNumberish, BigNumberish, BigNumberish[][], BytesLike]
   ): string;
@@ -163,6 +168,10 @@ export interface IBingoRoomInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "recentGames",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "restoreGame",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -417,6 +426,22 @@ export interface IBingoRoom extends BaseContract {
     "view"
   >;
 
+  restoreGame: TypedContractMethod<
+    [
+      player: AddressLike,
+      cardNumbers: BigNumberish[][],
+      signedGameLabel: BytesLike
+    ],
+    [
+      [bigint, bigint, boolean] & {
+        playingGameId: bigint;
+        autoEndTime: bigint;
+        isCardContentMatched: boolean;
+      }
+    ],
+    "nonpayable"
+  >;
+
   selectAndBingo: TypedContractMethod<
     [
       gameId: BigNumberish,
@@ -527,6 +552,23 @@ export interface IBingoRoom extends BaseContract {
     [filter: BigNumberish],
     [IBingoRoom.RecentGameStructOutput[]],
     "view"
+  >;
+  getFunction(
+    nameOrSignature: "restoreGame"
+  ): TypedContractMethod<
+    [
+      player: AddressLike,
+      cardNumbers: BigNumberish[][],
+      signedGameLabel: BytesLike
+    ],
+    [
+      [bigint, bigint, boolean] & {
+        playingGameId: bigint;
+        autoEndTime: bigint;
+        isCardContentMatched: boolean;
+      }
+    ],
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "selectAndBingo"

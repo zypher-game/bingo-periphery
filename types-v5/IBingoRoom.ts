@@ -89,6 +89,7 @@ export interface IBingoRoomInterface extends utils.Interface {
     "getSelectedNumbers(uint256)": FunctionFragment;
     "playedGames(address,uint256)": FunctionFragment;
     "recentGames(uint8)": FunctionFragment;
+    "restoreGame(address,uint8[][],bytes)": FunctionFragment;
     "selectAndBingo(uint256,uint8,uint8[][],bytes)": FunctionFragment;
     "selectNumber(uint256,uint8)": FunctionFragment;
     "summary()": FunctionFragment;
@@ -105,6 +106,7 @@ export interface IBingoRoomInterface extends utils.Interface {
       | "getSelectedNumbers"
       | "playedGames"
       | "recentGames"
+      | "restoreGame"
       | "selectAndBingo"
       | "selectNumber"
       | "summary"
@@ -143,6 +145,14 @@ export interface IBingoRoomInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "recentGames",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "restoreGame",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>[][],
+      PromiseOrValue<BytesLike>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "selectAndBingo",
@@ -184,6 +194,10 @@ export interface IBingoRoomInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "recentGames",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "restoreGame",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -386,6 +400,13 @@ export interface IBingoRoom extends BaseContract {
       }
     >;
 
+    restoreGame(
+      player: PromiseOrValue<string>,
+      cardNumbers: PromiseOrValue<BigNumberish>[][],
+      signedGameLabel: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     selectAndBingo(
       gameId: PromiseOrValue<BigNumberish>,
       number: PromiseOrValue<BigNumberish>,
@@ -475,6 +496,13 @@ export interface IBingoRoom extends BaseContract {
     overrides?: CallOverrides
   ): Promise<IBingoRoom.RecentGameStructOutput[]>;
 
+  restoreGame(
+    player: PromiseOrValue<string>,
+    cardNumbers: PromiseOrValue<BigNumberish>[][],
+    signedGameLabel: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   selectAndBingo(
     gameId: PromiseOrValue<BigNumberish>,
     number: PromiseOrValue<BigNumberish>,
@@ -563,6 +591,19 @@ export interface IBingoRoom extends BaseContract {
       filter: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<IBingoRoom.RecentGameStructOutput[]>;
+
+    restoreGame(
+      player: PromiseOrValue<string>,
+      cardNumbers: PromiseOrValue<BigNumberish>[][],
+      signedGameLabel: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, number, boolean] & {
+        playingGameId: BigNumber;
+        autoEndTime: number;
+        isCardContentMatched: boolean;
+      }
+    >;
 
     selectAndBingo(
       gameId: PromiseOrValue<BigNumberish>,
@@ -699,6 +740,13 @@ export interface IBingoRoom extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    restoreGame(
+      player: PromiseOrValue<string>,
+      cardNumbers: PromiseOrValue<BigNumberish>[][],
+      signedGameLabel: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     selectAndBingo(
       gameId: PromiseOrValue<BigNumberish>,
       number: PromiseOrValue<BigNumberish>,
@@ -754,6 +802,13 @@ export interface IBingoRoom extends BaseContract {
     recentGames(
       filter: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    restoreGame(
+      player: PromiseOrValue<string>,
+      cardNumbers: PromiseOrValue<BigNumberish>[][],
+      signedGameLabel: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     selectAndBingo(

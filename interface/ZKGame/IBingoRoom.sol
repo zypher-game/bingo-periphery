@@ -106,6 +106,20 @@ interface IBingoRoom {
         bytes calldata signedLabel
     ) external;
 
+    /**
+     * @dev Call this function by callStatic to check if a game is ongoing and
+     *      check if cached card content is available
+     */
+    function restoreGame(
+        address player,
+        uint8[][] memory cardNumbers,
+        bytes memory signedGameLabel
+    ) external returns (
+        uint256 playingGameId,
+        uint32 autoEndTime,
+        bool isCardContentMatched
+    );
+
     /*
     ██       ██████   ██████  ███████
     ██      ██    ██ ██       ██

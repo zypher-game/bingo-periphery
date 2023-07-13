@@ -494,6 +494,45 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "player",
+        type: "address",
+      },
+      {
+        internalType: "uint8[][]",
+        name: "cardNumbers",
+        type: "uint8[][]",
+      },
+      {
+        internalType: "bytes",
+        name: "signedGameLabel",
+        type: "bytes",
+      },
+    ],
+    name: "restoreGame",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "playingGameId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint32",
+        name: "autoEndTime",
+        type: "uint32",
+      },
+      {
+        internalType: "bool",
+        name: "isCardContentMatched",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "gameId",
         type: "uint256",

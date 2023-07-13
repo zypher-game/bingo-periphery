@@ -142,6 +142,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "proxiableUUID()": FunctionFragment;
     "recentGames(uint8)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "restoreGame(address,uint8[][],bytes)": FunctionFragment;
     "selectAndBingo(uint256,uint8,uint8[][],bytes)": FunctionFragment;
     "selectNumber(uint256,uint8)": FunctionFragment;
     "setGameTimers(uint32,uint8,uint32,uint32,uint32)": FunctionFragment;
@@ -183,6 +184,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       | "proxiableUUID"
       | "recentGames"
       | "renounceOwnership"
+      | "restoreGame"
       | "selectAndBingo"
       | "selectNumber"
       | "setGameTimers"
@@ -292,6 +294,14 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "restoreGame",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>[][],
+      PromiseOrValue<BytesLike>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "selectAndBingo",
@@ -406,6 +416,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "restoreGame",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -770,6 +784,13 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    restoreGame(
+      player: PromiseOrValue<string>,
+      cardNumbers: PromiseOrValue<BigNumberish>[][],
+      signedGameLabel: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     selectAndBingo(
       gameId: PromiseOrValue<BigNumberish>,
       number: PromiseOrValue<BigNumberish>,
@@ -973,6 +994,13 @@ export interface ZkBingoLobby extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  restoreGame(
+    player: PromiseOrValue<string>,
+    cardNumbers: PromiseOrValue<BigNumberish>[][],
+    signedGameLabel: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   selectAndBingo(
     gameId: PromiseOrValue<BigNumberish>,
     number: PromiseOrValue<BigNumberish>,
@@ -1171,6 +1199,19 @@ export interface ZkBingoLobby extends BaseContract {
     ): Promise<IBingoRoom.RecentGameStructOutput[]>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    restoreGame(
+      player: PromiseOrValue<string>,
+      cardNumbers: PromiseOrValue<BigNumberish>[][],
+      signedGameLabel: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, number, boolean] & {
+        playingGameId: BigNumber;
+        autoEndTime: number;
+        isCardContentMatched: boolean;
+      }
+    >;
 
     selectAndBingo(
       gameId: PromiseOrValue<BigNumberish>,
@@ -1466,6 +1507,13 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    restoreGame(
+      player: PromiseOrValue<string>,
+      cardNumbers: PromiseOrValue<BigNumberish>[][],
+      signedGameLabel: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     selectAndBingo(
       gameId: PromiseOrValue<BigNumberish>,
       number: PromiseOrValue<BigNumberish>,
@@ -1626,6 +1674,13 @@ export interface ZkBingoLobby extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    restoreGame(
+      player: PromiseOrValue<string>,
+      cardNumbers: PromiseOrValue<BigNumberish>[][],
+      signedGameLabel: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

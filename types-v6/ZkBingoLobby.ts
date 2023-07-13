@@ -135,6 +135,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "proxiableUUID"
       | "recentGames"
       | "renounceOwnership"
+      | "restoreGame"
       | "selectAndBingo"
       | "selectNumber"
       | "setGameTimers"
@@ -253,6 +254,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "restoreGame",
+    values: [AddressLike, BigNumberish[][], BytesLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "selectAndBingo",
     values: [BigNumberish, BigNumberish, BigNumberish[][], BytesLike]
   ): string;
@@ -360,6 +365,10 @@ export interface ZkBingoLobbyInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "restoreGame",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -772,6 +781,22 @@ export interface ZkBingoLobby extends BaseContract {
 
   renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
 
+  restoreGame: TypedContractMethod<
+    [
+      player: AddressLike,
+      cardNumbers: BigNumberish[][],
+      signedGameLabel: BytesLike
+    ],
+    [
+      [bigint, bigint, boolean] & {
+        playingGameId: bigint;
+        autoEndTime: bigint;
+        isCardContentMatched: boolean;
+      }
+    ],
+    "nonpayable"
+  >;
+
   selectAndBingo: TypedContractMethod<
     [
       gameId: BigNumberish,
@@ -1010,6 +1035,23 @@ export interface ZkBingoLobby extends BaseContract {
   getFunction(
     nameOrSignature: "renounceOwnership"
   ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "restoreGame"
+  ): TypedContractMethod<
+    [
+      player: AddressLike,
+      cardNumbers: BigNumberish[][],
+      signedGameLabel: BytesLike
+    ],
+    [
+      [bigint, bigint, boolean] & {
+        playingGameId: bigint;
+        autoEndTime: bigint;
+        isCardContentMatched: boolean;
+      }
+    ],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "selectAndBingo"
   ): TypedContractMethod<
