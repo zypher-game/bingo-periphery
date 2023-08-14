@@ -51,6 +51,16 @@
       "Reward": "0x0951e6B5D5C22Bedae722941a424Ce5Bdf1A6e35"
     }
   },
+  "42161": {
+    "release": {
+      "date": "2023-08-14T04:31:20.327Z",
+      "chainId": 42161,
+      "deployer": "0xBdD77C7F3e6473B1eEe508f44Cf5e2250e8036eC",
+      "ZkBingoCard": "0x14ab1f4d8F10D029fe7070A72E3e68462c652a19",
+      "ZkBingoLobby": "0x2e6190c90ca9aFc4D39c02b1E680Fb7183fA4a83",
+      "Reward": "0x4F7D245D8270dA88F818d44f10C3e11ED69581e2"
+    }
+  },
   "59140": {
     "release": {
       "ZkBingoLobby": "0xb29cAa2cB1fEb7f4cCaa9Dd9B8Ad2022EaCa6EC3",
@@ -81,7 +91,8 @@
     "develop": {
       "ZkBingoCard": "0x94203a79b5da3e4cFD1988651C5D28c35f1e3eF2",
       "ZkBingoLobby": "0x665A11007164B1dBECf6c7C6392C4ffE28a5282c",
-      "Reward": "0xb019a7Cfca9ec41b59170eBda342790FF6FD60D7"
+      "Reward": "0xb019a7Cfca9ec41b59170eBda342790FF6FD60D7",
+      "BlindBox": "0x5574A08191C7E899955425D4eDEb26baFDf081c0"
     }
   }
 }
