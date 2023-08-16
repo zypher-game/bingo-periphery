@@ -94,5 +94,15 @@
       "Reward": "0xb019a7Cfca9ec41b59170eBda342790FF6FD60D7",
       "BlindBox": "0x5574A08191C7E899955425D4eDEb26baFDf081c0"
     }
+  },
+  "534353": {
+    "develop": {
+      "date": "2023-08-16T07:29:26.176Z",
+      "chainId": 534353,
+      "deployer": "0x1C0ad2c17E848Fb3ccefEc1b77477bCadDA1d103",
+      "ZkBingoCard": "0x6a056940521dCf81583442ABA3f9F3A0EDf5647C",
+      "ZkBingoLobby": "0x3a7B56735270aB30E486573211E786475A1bF9B5",
+      "Reward": "0x6Ca24199a73D79e944132B9404b72B383196E2EF"
+    }
   }
 }
