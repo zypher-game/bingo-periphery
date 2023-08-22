@@ -95,6 +95,16 @@
       "BlindBox": "0x5574A08191C7E899955425D4eDEb26baFDf081c0"
     }
   },
+  "534351": {
+    "develop": {
+      "date": "2023-08-22T03:52:12.563Z",
+      "chainId": 534351,
+      "deployer": "0x1C0ad2c17E848Fb3ccefEc1b77477bCadDA1d103",
+      "ZkBingoCard": "0x85c00a08358d5602fd7B529AaDd156BBF9710AC2",
+      "ZkBingoLobby": "0x4122E927d082247b51d73D27EdF836051c905EC9",
+      "Reward": "0x2676cEF85550765fc893A9bd053587a175C32377"
+    }
+  },
   "534353": {
     "develop": {
       "date": "2023-08-16T07:29:26.176Z",
