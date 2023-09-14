@@ -6,6 +6,13 @@
       "Reward": "0x0BA0fe3305E77DdCd18704356Bac4708dCCC3085"
     }
   },
+  "204": {
+    "release": {
+      "ZkBingoCard": "0x8F4F21308a7c16d0E1d3d851B0E2547ff652287F",
+      "ZkBingoLobby": "0xEEcaAE0E7C68bCc0e232c8229310991A0106f1C4",
+      "Reward": "0x0269c2a29dbD73C6F13f45850A12B14D98DCe613"
+    }
+  },
   "420": {
     "release": {
       "ZkBingoLobby": "0xc3B2ea66D2341323FA7eB350886d6C602755ff6F",
