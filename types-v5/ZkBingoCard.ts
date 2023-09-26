@@ -51,6 +51,7 @@ export interface ZkBingoCardInterface extends utils.Interface {
     "getCardGame(uint256)": FunctionFragment;
     "getCardNumbers(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "isValidCardNumbers(uint8[][])": FunctionFragment;
     "lines()": FunctionFragment;
     "matchedLines(uint256)": FunctionFragment;
     "mint(address,uint256,bytes)": FunctionFragment;
@@ -105,6 +106,7 @@ export interface ZkBingoCardInterface extends utils.Interface {
       | "getCardGame"
       | "getCardNumbers"
       | "isApprovedForAll"
+      | "isValidCardNumbers"
       | "lines"
       | "matchedLines"
       | "mint"
@@ -224,6 +226,10 @@ export interface ZkBingoCardInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isValidCardNumbers",
+    values: [PromiseOrValue<BigNumberish>[][]]
   ): string;
   encodeFunctionData(functionFragment: "lines", values?: undefined): string;
   encodeFunctionData(
@@ -418,6 +424,10 @@ export interface ZkBingoCardInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isValidCardNumbers",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "lines", data: BytesLike): Result;
@@ -715,6 +725,11 @@ export interface ZkBingoCard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    isValidCardNumbers(
+      nums: PromiseOrValue<BigNumberish>[][],
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     lines(overrides?: CallOverrides): Promise<[[number, number][][]]>;
 
     matchedLines(
@@ -967,6 +982,11 @@ export interface ZkBingoCard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  isValidCardNumbers(
+    nums: PromiseOrValue<BigNumberish>[][],
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   lines(overrides?: CallOverrides): Promise<[number, number][][]>;
 
   matchedLines(
@@ -1215,6 +1235,11 @@ export interface ZkBingoCard extends BaseContract {
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    isValidCardNumbers(
+      nums: PromiseOrValue<BigNumberish>[][],
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -1526,6 +1551,11 @@ export interface ZkBingoCard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    isValidCardNumbers(
+      nums: PromiseOrValue<BigNumberish>[][],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     lines(overrides?: CallOverrides): Promise<BigNumber>;
 
     matchedLines(
@@ -1778,6 +1808,11 @@ export interface ZkBingoCard extends BaseContract {
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isValidCardNumbers(
+      nums: PromiseOrValue<BigNumberish>[][],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

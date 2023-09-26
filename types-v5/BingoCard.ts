@@ -46,6 +46,7 @@ export interface BingoCardInterface extends utils.Interface {
     "freeSpaces()": FunctionFragment;
     "getCardGame(uint256)": FunctionFragment;
     "getCardNumbers(uint256)": FunctionFragment;
+    "isValidCardNumbers(uint8[][])": FunctionFragment;
     "lines()": FunctionFragment;
     "matchedLines(uint256)": FunctionFragment;
     "mint(address,uint256,bytes)": FunctionFragment;
@@ -79,6 +80,7 @@ export interface BingoCardInterface extends utils.Interface {
       | "freeSpaces"
       | "getCardGame"
       | "getCardNumbers"
+      | "isValidCardNumbers"
       | "lines"
       | "matchedLines"
       | "mint"
@@ -165,6 +167,10 @@ export interface BingoCardInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getCardNumbers",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isValidCardNumbers",
+    values: [PromiseOrValue<BigNumberish>[][]]
   ): string;
   encodeFunctionData(functionFragment: "lines", values?: undefined): string;
   encodeFunctionData(
@@ -280,6 +286,10 @@ export interface BingoCardInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getCardNumbers",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isValidCardNumbers",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "lines", data: BytesLike): Result;
@@ -451,6 +461,11 @@ export interface BingoCard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[number[][]]>;
 
+    isValidCardNumbers(
+      nums: PromiseOrValue<BigNumberish>[][],
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     lines(overrides?: CallOverrides): Promise<[[number, number][][]]>;
 
     matchedLines(
@@ -605,6 +620,11 @@ export interface BingoCard extends BaseContract {
     cardId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number[][]>;
+
+  isValidCardNumbers(
+    nums: PromiseOrValue<BigNumberish>[][],
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   lines(overrides?: CallOverrides): Promise<[number, number][][]>;
 
@@ -762,6 +782,11 @@ export interface BingoCard extends BaseContract {
       cardId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number[][]>;
+
+    isValidCardNumbers(
+      nums: PromiseOrValue<BigNumberish>[][],
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     lines(overrides?: CallOverrides): Promise<[number, number][][]>;
 
@@ -934,6 +959,11 @@ export interface BingoCard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    isValidCardNumbers(
+      nums: PromiseOrValue<BigNumberish>[][],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     lines(overrides?: CallOverrides): Promise<BigNumber>;
 
     matchedLines(
@@ -1089,6 +1119,11 @@ export interface BingoCard extends BaseContract {
 
     getCardNumbers(
       cardId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isValidCardNumbers(
+      nums: PromiseOrValue<BigNumberish>[][],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

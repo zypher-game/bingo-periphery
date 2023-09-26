@@ -43,6 +43,7 @@ export interface BingoCardInterface extends Interface {
       | "freeSpaces"
       | "getCardGame"
       | "getCardNumbers"
+      | "isValidCardNumbers"
       | "lines"
       | "matchedLines"
       | "mint"
@@ -123,6 +124,10 @@ export interface BingoCardInterface extends Interface {
   encodeFunctionData(
     functionFragment: "getCardNumbers",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isValidCardNumbers",
+    values: [BigNumberish[][]]
   ): string;
   encodeFunctionData(functionFragment: "lines", values?: undefined): string;
   encodeFunctionData(
@@ -224,6 +229,10 @@ export interface BingoCardInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getCardNumbers",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isValidCardNumbers",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "lines", data: BytesLike): Result;
@@ -419,6 +428,12 @@ export interface BingoCard extends BaseContract {
     "view"
   >;
 
+  isValidCardNumbers: TypedContractMethod<
+    [nums: BigNumberish[][]],
+    [boolean],
+    "view"
+  >;
+
   lines: TypedContractMethod<[], [[bigint, bigint][][]], "view">;
 
   matchedLines: TypedContractMethod<[cardId: BigNumberish], [bigint], "view">;
@@ -576,6 +591,9 @@ export interface BingoCard extends BaseContract {
   getFunction(
     nameOrSignature: "getCardNumbers"
   ): TypedContractMethod<[cardId: BigNumberish], [bigint[][]], "view">;
+  getFunction(
+    nameOrSignature: "isValidCardNumbers"
+  ): TypedContractMethod<[nums: BigNumberish[][]], [boolean], "view">;
   getFunction(
     nameOrSignature: "lines"
   ): TypedContractMethod<[], [[bigint, bigint][][]], "view">;

@@ -121,5 +121,17 @@
       "ZkBingoLobby": "0x3a7B56735270aB30E486573211E786475A1bF9B5",
       "Reward": "0x6Ca24199a73D79e944132B9404b72B383196E2EF"
     }
+  },
+  "3441005": {
+    "develop": {
+      "ZkBingoCard": "0xD867BcafD4edCbd917E04078147aaDb14468F106",
+      "ZkBingoLobby": "0xb964DD78Ba7FD6d0A57fA1ad70CDDFD14EA3fED2",
+      "Reward": "0xa0f8aC55A5eA62e24EdC7029b8C89D823AFa4A40"
+    },
+    "release": {
+      "ZkBingoCard": "0x04512fd2CAcf6DaAF896dB55952A54e328282EB2",
+      "ZkBingoLobby": "0xdC79d09421d0cB8b00cB7012780D885BED8335cE",
+      "Reward": "0xD401e60220bC4d36Cf5CB6225e00361E5e611C05"
+    }
   }
 }

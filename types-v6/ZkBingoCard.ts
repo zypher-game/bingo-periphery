@@ -48,6 +48,7 @@ export interface ZkBingoCardInterface extends Interface {
       | "getCardGame"
       | "getCardNumbers"
       | "isApprovedForAll"
+      | "isValidCardNumbers"
       | "lines"
       | "matchedLines"
       | "mint"
@@ -168,6 +169,10 @@ export interface ZkBingoCardInterface extends Interface {
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [AddressLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isValidCardNumbers",
+    values: [BigNumberish[][]]
   ): string;
   encodeFunctionData(functionFragment: "lines", values?: undefined): string;
   encodeFunctionData(
@@ -335,6 +340,10 @@ export interface ZkBingoCardInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isValidCardNumbers",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "lines", data: BytesLike): Result;
@@ -665,6 +674,12 @@ export interface ZkBingoCard extends BaseContract {
     "view"
   >;
 
+  isValidCardNumbers: TypedContractMethod<
+    [nums: BigNumberish[][]],
+    [boolean],
+    "view"
+  >;
+
   lines: TypedContractMethod<[], [[bigint, bigint][][]], "view">;
 
   matchedLines: TypedContractMethod<[cardId: BigNumberish], [bigint], "view">;
@@ -910,6 +925,9 @@ export interface ZkBingoCard extends BaseContract {
     [boolean],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "isValidCardNumbers"
+  ): TypedContractMethod<[nums: BigNumberish[][]], [boolean], "view">;
   getFunction(
     nameOrSignature: "lines"
   ): TypedContractMethod<[], [[bigint, bigint][][]], "view">;

@@ -578,6 +578,25 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint8[][]",
+        name: "nums",
+        type: "uint8[][]",
+      },
+    ],
+    name: "isValidCardNumbers",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "lines",
     outputs: [
