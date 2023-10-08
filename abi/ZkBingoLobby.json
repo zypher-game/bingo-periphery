@@ -346,7 +346,7 @@
     ],
     "name": "bingo",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -777,6 +777,19 @@
   },
   {
     "inputs": [],
+    "name": "prizePool",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "proxiableUUID",
     "outputs": [
       {
@@ -922,7 +935,7 @@
     ],
     "name": "selectAndBingo",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -980,6 +993,19 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_prizePool",
+        "type": "address"
+      }
+    ],
+    "name": "setPrizePool",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "newReward",
         "type": "address"
       },
@@ -990,6 +1016,19 @@
       }
     ],
     "name": "setReward",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_winnerFee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setWinnerFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1164,6 +1203,19 @@
         "internalType": "uint32",
         "name": "",
         "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "winnerFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

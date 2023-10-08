@@ -757,7 +757,7 @@ export interface AiZkLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   expectedLines: TypedContractMethod<[], [bigint], "view">;
@@ -918,7 +918,7 @@ export interface AiZkLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -1030,7 +1030,7 @@ export interface AiZkLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "expectedLines"
@@ -1215,7 +1215,7 @@ export interface AiZkLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"

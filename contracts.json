@@ -91,9 +91,11 @@
   },
   "91715": {
     "develop": {
-      "ZkBingoCard": "0xdC02B04F6eC1ab0E2E39C199f7f14a3995A6bA74",
-      "ZkBingoLobby": "0x5723E1d8EF1C7dF546e4591d3D4E031396271150",
-      "Reward": "0x7B33863e57AA21e95756246D84bA8B3559617347"
+      "ZkBingoCard": "0x7D4eC53291119754dAed56fc691CA1c11De7A77b",
+      "ZkBingoLobby": "0xF8708d83C63685D2EA3f8c7125aeeD5D04253b16",
+      "Reward": "0x170c6076495491096a650824C0b674e0219E488F",
+      "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
+      "winnerFee": "0.005"
     },
     "release": {
       "ZkBingoCard": "0x69996a2ef72AA6570B3599EB2816C3DD35b83905",

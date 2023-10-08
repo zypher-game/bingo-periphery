@@ -353,7 +353,7 @@ const _abi = [
     ],
     name: "bingo",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -784,6 +784,19 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "prizePool",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "proxiableUUID",
     outputs: [
       {
@@ -929,7 +942,7 @@ const _abi = [
     ],
     name: "selectAndBingo",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -987,6 +1000,19 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "_prizePool",
+        type: "address",
+      },
+    ],
+    name: "setPrizePool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "newReward",
         type: "address",
       },
@@ -997,6 +1023,19 @@ const _abi = [
       },
     ],
     name: "setReward",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_winnerFee",
+        type: "uint256",
+      },
+    ],
+    name: "setWinnerFee",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1171,6 +1210,19 @@ const _abi = [
         internalType: "uint32",
         name: "",
         type: "uint32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "winnerFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
