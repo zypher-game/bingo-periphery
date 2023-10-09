@@ -125,6 +125,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "getSelectedNumbers"
       | "initialize"
       | "join"
+      | "joinFee"
       | "leave"
       | "lineupUsers"
       | "maxPlayers"
@@ -140,9 +141,9 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "selectAndBingo"
       | "selectNumber"
       | "setGameTimers"
+      | "setJoinFee"
       | "setPrizePool"
       | "setReward"
-      | "setWinnerFee"
       | "start"
       | "summary"
       | "timer"
@@ -151,7 +152,6 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "upgradeToAndCall"
       | "userRecords"
       | "version"
-      | "winnerFee"
   ): FunctionFragment;
 
   getEvent(
@@ -226,6 +226,7 @@ export interface ZkBingoLobbyInterface extends Interface {
     ]
   ): string;
   encodeFunctionData(functionFragment: "join", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "joinFee", values?: undefined): string;
   encodeFunctionData(functionFragment: "leave", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "lineupUsers",
@@ -281,16 +282,16 @@ export interface ZkBingoLobbyInterface extends Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "setJoinFee",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setPrizePool",
     values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "setReward",
     values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setWinnerFee",
-    values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
@@ -312,7 +313,6 @@ export interface ZkBingoLobbyInterface extends Interface {
     values: [AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
-  encodeFunctionData(functionFragment: "winnerFee", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "GAME_REWARD_FEE",
@@ -356,6 +356,7 @@ export interface ZkBingoLobbyInterface extends Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "join", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "joinFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "leave", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "lineupUsers",
@@ -398,15 +399,12 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "setGameTimers",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setJoinFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setPrizePool",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setReward", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setWinnerFee",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
@@ -424,7 +422,6 @@ export interface ZkBingoLobbyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "winnerFee", data: BytesLike): Result;
 }
 
 export namespace AdminChangedEvent {
@@ -700,7 +697,7 @@ export interface ZkBingoLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   expectedLines: TypedContractMethod<[], [bigint], "view">;
@@ -775,7 +772,9 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
 
-  join: TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  join: TypedContractMethod<[zkCard: BytesLike], [void], "payable">;
+
+  joinFee: TypedContractMethod<[], [bigint], "view">;
 
   leave: TypedContractMethod<[], [void], "nonpayable">;
 
@@ -831,7 +830,7 @@ export interface ZkBingoLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -852,6 +851,12 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
 
+  setJoinFee: TypedContractMethod<
+    [_joinFee: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
   setPrizePool: TypedContractMethod<
     [_prizePool: AddressLike],
     [void],
@@ -860,12 +865,6 @@ export interface ZkBingoLobby extends BaseContract {
 
   setReward: TypedContractMethod<
     [newReward: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  setWinnerFee: TypedContractMethod<
-    [_winnerFee: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -924,8 +923,6 @@ export interface ZkBingoLobby extends BaseContract {
 
   version: TypedContractMethod<[], [bigint], "view">;
 
-  winnerFee: TypedContractMethod<[], [bigint], "view">;
-
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
@@ -955,7 +952,7 @@ export interface ZkBingoLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "expectedLines"
@@ -1036,7 +1033,10 @@ export interface ZkBingoLobby extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "join"
-  ): TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<[zkCard: BytesLike], [void], "payable">;
+  getFunction(
+    nameOrSignature: "joinFee"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "leave"
   ): TypedContractMethod<[], [void], "nonpayable">;
@@ -1105,7 +1105,7 @@ export interface ZkBingoLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"
@@ -1128,6 +1128,9 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "setJoinFee"
+  ): TypedContractMethod<[_joinFee: BigNumberish], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "setPrizePool"
   ): TypedContractMethod<[_prizePool: AddressLike], [void], "nonpayable">;
   getFunction(
@@ -1137,9 +1140,6 @@ export interface ZkBingoLobby extends BaseContract {
     [void],
     "nonpayable"
   >;
-  getFunction(
-    nameOrSignature: "setWinnerFee"
-  ): TypedContractMethod<[_winnerFee: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "start"
   ): TypedContractMethod<[], [void], "nonpayable">;
@@ -1193,9 +1193,6 @@ export interface ZkBingoLobby extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "version"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "winnerFee"
   ): TypedContractMethod<[], [bigint], "view">;
 
   getEvent(

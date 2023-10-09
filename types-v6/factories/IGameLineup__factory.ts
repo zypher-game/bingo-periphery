@@ -42,7 +42,7 @@ const _abi = [
     ],
     name: "join",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {

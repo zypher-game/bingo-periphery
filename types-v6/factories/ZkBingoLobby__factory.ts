@@ -353,7 +353,7 @@ const _abi = [
     ],
     name: "bingo",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -639,7 +639,20 @@ const _abi = [
     ],
     name: "join",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "joinFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -942,7 +955,7 @@ const _abi = [
     ],
     name: "selectAndBingo",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -999,6 +1012,19 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "_joinFee",
+        type: "uint256",
+      },
+    ],
+    name: "setJoinFee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "_prizePool",
         type: "address",
@@ -1023,19 +1049,6 @@ const _abi = [
       },
     ],
     name: "setReward",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_winnerFee",
-        type: "uint256",
-      },
-    ],
-    name: "setWinnerFee",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1210,19 +1223,6 @@ const _abi = [
         internalType: "uint32",
         name: "",
         type: "uint32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "winnerFee",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
       },
     ],
     stateMutability: "view",

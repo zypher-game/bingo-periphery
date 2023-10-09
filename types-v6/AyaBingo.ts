@@ -751,7 +751,7 @@ export interface AyaBingo extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   expectedLines: TypedContractMethod<[], [bigint], "view">;
@@ -828,7 +828,7 @@ export interface AyaBingo extends BaseContract {
     "nonpayable"
   >;
 
-  join: TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  join: TypedContractMethod<[zkCard: BytesLike], [void], "payable">;
 
   lastReportId: TypedContractMethod<[], [bigint], "view">;
 
@@ -912,7 +912,7 @@ export interface AyaBingo extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -1018,7 +1018,7 @@ export interface AyaBingo extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "expectedLines"
@@ -1102,7 +1102,7 @@ export interface AyaBingo extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "join"
-  ): TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<[zkCard: BytesLike], [void], "payable">;
   getFunction(
     nameOrSignature: "lastReportId"
   ): TypedContractMethod<[], [bigint], "view">;
@@ -1203,7 +1203,7 @@ export interface AyaBingo extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"

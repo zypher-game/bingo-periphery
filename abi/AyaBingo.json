@@ -430,7 +430,7 @@
     ],
     "name": "bingo",
     "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -735,7 +735,7 @@
     ],
     "name": "join",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -1154,7 +1154,7 @@
     ],
     "name": "selectAndBingo",
     "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

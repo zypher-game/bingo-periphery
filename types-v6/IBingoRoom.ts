@@ -360,7 +360,7 @@ export interface IBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   expectedLines: TypedContractMethod<[], [bigint], "view">;
@@ -450,7 +450,7 @@ export interface IBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -484,7 +484,7 @@ export interface IBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "expectedLines"
@@ -580,7 +580,7 @@ export interface IBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"

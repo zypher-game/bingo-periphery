@@ -380,7 +380,7 @@ export interface AyaBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   expectedLines: TypedContractMethod<[], [bigint], "view">;
@@ -476,7 +476,7 @@ export interface AyaBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -513,7 +513,7 @@ export interface AyaBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "expectedLines"
@@ -616,7 +616,7 @@ export interface AyaBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"

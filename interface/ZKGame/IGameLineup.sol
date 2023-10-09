@@ -11,7 +11,7 @@ interface IGameLineup {
         address indexed player
     );
 
-    function join(bytes calldata zkCard) external;
+    function join(bytes calldata zkCard) external payable;
 
     function leave() external;
 

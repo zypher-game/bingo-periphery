@@ -115,7 +115,7 @@ export interface GameLineup extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  join: TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  join: TypedContractMethod<[zkCard: BytesLike], [void], "payable">;
 
   leave: TypedContractMethod<[], [void], "nonpayable">;
 
@@ -129,7 +129,7 @@ export interface GameLineup extends BaseContract {
 
   getFunction(
     nameOrSignature: "join"
-  ): TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<[zkCard: BytesLike], [void], "payable">;
   getFunction(
     nameOrSignature: "leave"
   ): TypedContractMethod<[], [void], "nonpayable">;

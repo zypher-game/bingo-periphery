@@ -257,7 +257,7 @@ const _abi = [
     ],
     name: "bingo",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -800,7 +800,7 @@ const _abi = [
     ],
     name: "selectAndBingo",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

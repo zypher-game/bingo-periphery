@@ -727,7 +727,7 @@ export interface AyaBingo extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedGameLabel: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     expectedLines(overrides?: CallOverrides): Promise<[number]>;
@@ -807,7 +807,7 @@ export interface AyaBingo extends BaseContract {
 
     join(
       zkCard: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     lastReportId(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -898,7 +898,7 @@ export interface AyaBingo extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedGameLabel: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     selectNumber(
@@ -983,7 +983,7 @@ export interface AyaBingo extends BaseContract {
     gameId: PromiseOrValue<BigNumberish>,
     cardNumbers: PromiseOrValue<BigNumberish>[][],
     signedGameLabel: PromiseOrValue<BytesLike>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   expectedLines(overrides?: CallOverrides): Promise<number>;
@@ -1059,7 +1059,7 @@ export interface AyaBingo extends BaseContract {
 
   join(
     zkCard: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   lastReportId(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1140,7 +1140,7 @@ export interface AyaBingo extends BaseContract {
     number: PromiseOrValue<BigNumberish>,
     cardNumbers: PromiseOrValue<BigNumberish>[][],
     signedGameLabel: PromiseOrValue<BytesLike>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   selectNumber(
@@ -1607,7 +1607,7 @@ export interface AyaBingo extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedGameLabel: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     expectedLines(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1658,7 +1658,7 @@ export interface AyaBingo extends BaseContract {
 
     join(
       zkCard: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     lastReportId(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1731,7 +1731,7 @@ export interface AyaBingo extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedGameLabel: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     selectNumber(
@@ -1803,7 +1803,7 @@ export interface AyaBingo extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedGameLabel: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     expectedLines(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1854,7 +1854,7 @@ export interface AyaBingo extends BaseContract {
 
     join(
       zkCard: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     lastReportId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1927,7 +1927,7 @@ export interface AyaBingo extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedGameLabel: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     selectNumber(

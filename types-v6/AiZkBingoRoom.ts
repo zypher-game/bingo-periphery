@@ -474,7 +474,7 @@ export interface AiZkBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   expectedLines: TypedContractMethod<[], [bigint], "view">;
@@ -600,7 +600,7 @@ export interface AiZkBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -637,7 +637,7 @@ export interface AiZkBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "expectedLines"
@@ -775,7 +775,7 @@ export interface AiZkBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"

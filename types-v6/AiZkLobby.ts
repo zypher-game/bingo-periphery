@@ -757,7 +757,7 @@ export interface AiZkLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   expectedLines: TypedContractMethod<[], [bigint], "view">;
@@ -834,7 +834,7 @@ export interface AiZkLobby extends BaseContract {
     "nonpayable"
   >;
 
-  join: TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  join: TypedContractMethod<[zkCard: BytesLike], [void], "payable">;
 
   lastReportId: TypedContractMethod<[], [bigint], "view">;
 
@@ -918,7 +918,7 @@ export interface AiZkLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -1030,7 +1030,7 @@ export interface AiZkLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "expectedLines"
@@ -1114,7 +1114,7 @@ export interface AiZkLobby extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "join"
-  ): TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<[zkCard: BytesLike], [void], "payable">;
   getFunction(
     nameOrSignature: "lastReportId"
   ): TypedContractMethod<[], [bigint], "view">;
@@ -1215,7 +1215,7 @@ export interface AiZkLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"

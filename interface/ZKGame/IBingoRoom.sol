@@ -97,14 +97,14 @@ interface IBingoRoom {
         uint256 gameId,
         uint8[][] calldata cardNumbers,
         bytes calldata signedLabel
-    ) external payable;
+    ) external;
 
     function selectAndBingo(
         uint256 gameId,
         uint8 number,
         uint8[][] calldata cardNumbers,
         bytes calldata signedLabel
-    ) external payable;
+    ) external;
 
     /**
      * @dev Call this function by callStatic to check if a game is ongoing and

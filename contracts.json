@@ -91,16 +91,18 @@
   },
   "91715": {
     "develop": {
-      "ZkBingoCard": "0x7D4eC53291119754dAed56fc691CA1c11De7A77b",
-      "ZkBingoLobby": "0xF8708d83C63685D2EA3f8c7125aeeD5D04253b16",
-      "Reward": "0x170c6076495491096a650824C0b674e0219E488F",
+      "ZkBingoCard": "0x34c00ffBE9480DEf4417a6fe11c4e1Baa6690B22",
+      "ZkBingoLobby": "0x6e15826f295A9d2939dbc625594E61141fBFB51A",
+      "Reward": "0xABa8c71595143a1c15098B7B83E09A066b38120A",
       "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
-      "winnerFee": "0.005"
+      "joinFee": "0.005"
     },
     "release": {
-      "ZkBingoCard": "0x69996a2ef72AA6570B3599EB2816C3DD35b83905",
-      "ZkBingoLobby": "0x42f86d22C975256D4674a91919BEfD0FcdF20e21",
-      "Reward": "0x9650dB65969Ce4B81589d65C902cFe98E8B3c792"
+      "ZkBingoCard": "0x698CABaBBcb0F5Afe01f555b37fa3F2eE889c01f",
+      "ZkBingoLobby": "0x3c44E8D9f8E6bD89552bc8ec3107b01b269eFeC4",
+      "Reward": "0x80b0E28B719b81780dC85B20B2A6543B61231De6",
+      "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
+      "joinFee": "0.005"
     }
   },
   "421613": {
