@@ -6,6 +6,9 @@
       "Reward": "0x0BA0fe3305E77DdCd18704356Bac4708dCCC3085"
     }
   },
+  "169": {
+    "network": "Manta Pacific L2 Rollup"
+  },
   "204": {
     "release": {
       "ZkBingoCard": "0x8F4F21308a7c16d0E1d3d851B0E2547ff652287F",
@@ -59,6 +62,7 @@
     }
   },
   "42161": {
+    "network": "Arbitrum One",
     "release": {
       "date": "2023-08-14T04:31:20.327Z",
       "chainId": 42161,
@@ -76,6 +80,7 @@
     }
   },
   "59144": {
+    "network": "Linea Mainnet",
     "release": {
       "ZkBingoLobby": "0xb29cAa2cB1fEb7f4cCaa9Dd9B8Ad2022EaCa6EC3",
       "ZkBingoCard": "0xC9108a21e461C71331C1317B38C57DDB8B7B0264",
@@ -106,6 +111,7 @@
     }
   },
   "421613": {
+    "network": "Arbitrum Goerli",
     "release": {
       "ZkBingoLobby": "0xD414aCC27888A46E2D4C2467A673D7297d160205",
       "ZkBingoCard": "0xc9d65b20aE614718b18d7d7403d335f865221D21",
@@ -139,15 +145,20 @@
     }
   },
   "3441005": {
+    "network": "Manta Testnet L2 Rollup",
     "develop": {
       "ZkBingoCard": "0xD867BcafD4edCbd917E04078147aaDb14468F106",
       "ZkBingoLobby": "0xb964DD78Ba7FD6d0A57fA1ad70CDDFD14EA3fED2",
-      "Reward": "0xa0f8aC55A5eA62e24EdC7029b8C89D823AFa4A40"
+      "Reward": "0xa0f8aC55A5eA62e24EdC7029b8C89D823AFa4A40",
+      "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
+      "joinFee": "0.0005"
     },
     "release": {
       "ZkBingoCard": "0x04512fd2CAcf6DaAF896dB55952A54e328282EB2",
       "ZkBingoLobby": "0xdC79d09421d0cB8b00cB7012780D885BED8335cE",
-      "Reward": "0xD401e60220bC4d36Cf5CB6225e00361E5e611C05"
+      "Reward": "0xD401e60220bC4d36Cf5CB6225e00361E5e611C05",
+      "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
+      "joinFee": "0.0005"
     }
   }
 }
