@@ -36,6 +36,7 @@ export { IRewardDistribution__factory } from "./IRewardDistribution__factory";
 export { IUserCenter__factory } from "./IUserCenter__factory";
 export { Multicall__factory } from "./Multicall__factory";
 export { Multicall2__factory } from "./Multicall2__factory";
+export { Multicall3__factory } from "./Multicall3__factory";
 export { Pausable__factory } from "./Pausable__factory";
 export { Reward__factory } from "./Reward__factory";
 export { Rewardable__factory } from "./Rewardable__factory";

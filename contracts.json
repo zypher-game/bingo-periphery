@@ -95,10 +95,12 @@
     }
   },
   "91715": {
+    "network": "Combo Testnet",
     "develop": {
       "ZkBingoCard": "0x34c00ffBE9480DEf4417a6fe11c4e1Baa6690B22",
       "ZkBingoLobby": "0x6e15826f295A9d2939dbc625594E61141fBFB51A",
       "Reward": "0xABa8c71595143a1c15098B7B83E09A066b38120A",
+      "Multicall3": "0x7cE161f1BF228929626A1D41ffa468E16605AE6f",
       "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
       "joinFee": "0.005"
     },
@@ -106,6 +108,7 @@
       "ZkBingoCard": "0x698CABaBBcb0F5Afe01f555b37fa3F2eE889c01f",
       "ZkBingoLobby": "0x3c44E8D9f8E6bD89552bc8ec3107b01b269eFeC4",
       "Reward": "0x80b0E28B719b81780dC85B20B2A6543B61231De6",
+      "Multicall3": "0x7cE161f1BF228929626A1D41ffa468E16605AE6f",
       "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
       "joinFee": "0.005"
     }
@@ -150,6 +153,7 @@
       "ZkBingoCard": "0xD867BcafD4edCbd917E04078147aaDb14468F106",
       "ZkBingoLobby": "0xb964DD78Ba7FD6d0A57fA1ad70CDDFD14EA3fED2",
       "Reward": "0xa0f8aC55A5eA62e24EdC7029b8C89D823AFa4A40",
+      "Multicall3": "0xd4E91b4401EDb2BD95791462F4ccAaae4026540D",
       "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
       "joinFee": "0.0005"
     },
@@ -157,6 +161,7 @@
       "ZkBingoCard": "0x04512fd2CAcf6DaAF896dB55952A54e328282EB2",
       "ZkBingoLobby": "0xdC79d09421d0cB8b00cB7012780D885BED8335cE",
       "Reward": "0xD401e60220bC4d36Cf5CB6225e00361E5e611C05",
+      "Multicall3": "0xd4E91b4401EDb2BD95791462F4ccAaae4026540D",
       "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
       "joinFee": "0.0005"
     }

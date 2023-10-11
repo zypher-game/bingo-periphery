@@ -36,6 +36,7 @@ export type { IRewardDistribution } from "./IRewardDistribution";
 export type { IUserCenter } from "./IUserCenter";
 export type { Multicall } from "./Multicall";
 export type { Multicall2 } from "./Multicall2";
+export type { Multicall3 } from "./Multicall3";
 export type { Pausable } from "./Pausable";
 export type { Reward } from "./Reward";
 export type { Rewardable } from "./Rewardable";
@@ -80,6 +81,7 @@ export { IRewardDistribution__factory } from "./factories/IRewardDistribution__f
 export { IUserCenter__factory } from "./factories/IUserCenter__factory";
 export { Multicall__factory } from "./factories/Multicall__factory";
 export { Multicall2__factory } from "./factories/Multicall2__factory";
+export { Multicall3__factory } from "./factories/Multicall3__factory";
 export { Pausable__factory } from "./factories/Pausable__factory";
 export { Reward__factory } from "./factories/Reward__factory";
 export { Rewardable__factory } from "./factories/Rewardable__factory";
