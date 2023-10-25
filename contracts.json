@@ -61,13 +61,14 @@
     }
   },
   "5001": {
+    "network": "Mantle Testnet",
     "develop": {
       "ZkBingoCard": "0xCb8FD01B94A63fEC6F618989780748C16E30Eda2",
       "ZkBingoLobby": "0x086fd126fd9Cd41F362FCe38e09f76f481c2Af92",
       "Reward": "0xd8092E9Eb539D2D512943125285eA71f9189Df2d",
       "Multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11",
       "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
-      "joinFee": "0.0005"
+      "joinFee": "0.5"
     }
   },
   "5611": {
