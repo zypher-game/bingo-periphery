@@ -122,6 +122,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "RECENT_GAME_COUNTS()": FunctionFragment;
     "_seasonLogs(uint256,address)": FunctionFragment;
     "bingo(uint256,uint8[][],bytes)": FunctionFragment;
+    "clearLineup()": FunctionFragment;
     "expectedLines()": FunctionFragment;
     "fee()": FunctionFragment;
     "gameCard()": FunctionFragment;
@@ -168,6 +169,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       | "RECENT_GAME_COUNTS"
       | "_seasonLogs"
       | "bingo"
+      | "clearLineup"
       | "expectedLines"
       | "fee"
       | "gameCard"
@@ -227,6 +229,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>[][],
       PromiseOrValue<BytesLike>
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "clearLineup",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "expectedLines",
@@ -383,6 +389,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "clearLineup",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "expectedLines",
     data: BytesLike
@@ -690,6 +700,10 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    clearLineup(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     expectedLines(overrides?: CallOverrides): Promise<[number]>;
 
     fee(
@@ -928,6 +942,10 @@ export interface ZkBingoLobby extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  clearLineup(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   expectedLines(overrides?: CallOverrides): Promise<number>;
 
   fee(
@@ -1151,6 +1169,8 @@ export interface ZkBingoLobby extends BaseContract {
       signedGameLabel: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    clearLineup(overrides?: CallOverrides): Promise<void>;
 
     expectedLines(overrides?: CallOverrides): Promise<number>;
 
@@ -1494,6 +1514,10 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    clearLineup(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     expectedLines(overrides?: CallOverrides): Promise<BigNumber>;
 
     fee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1675,6 +1699,10 @@ export interface ZkBingoLobby extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedGameLabel: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    clearLineup(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -359,6 +359,13 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "clearLineup",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "expectedLines",
     outputs: [
       {

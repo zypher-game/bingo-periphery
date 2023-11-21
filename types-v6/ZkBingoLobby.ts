@@ -115,6 +115,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "RECENT_GAME_COUNTS"
       | "_seasonLogs"
       | "bingo"
+      | "clearLineup"
       | "expectedLines"
       | "fee"
       | "gameCard"
@@ -187,6 +188,10 @@ export interface ZkBingoLobbyInterface extends Interface {
   encodeFunctionData(
     functionFragment: "bingo",
     values: [BigNumberish, BigNumberish[][], BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "clearLineup",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "expectedLines",
@@ -328,6 +333,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "clearLineup",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "expectedLines",
     data: BytesLike
@@ -700,6 +709,8 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
 
+  clearLineup: TypedContractMethod<[], [void], "nonpayable">;
+
   expectedLines: TypedContractMethod<[], [bigint], "view">;
 
   fee: TypedContractMethod<
@@ -954,6 +965,9 @@ export interface ZkBingoLobby extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "clearLineup"
+  ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "expectedLines"
   ): TypedContractMethod<[], [bigint], "view">;
