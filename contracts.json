@@ -125,10 +125,12 @@
     }
   },
   "60005": {
+    "network": "Hypr Testnet",
     "develop": {
       "ZkBingoCard": "0x94D10e10094374e7A70D9346A0b4daf9cF2d9e51",
       "ZkBingoLobby": "0x756a91960d8836341fb6EFf98d40Eac2fa28421d",
       "Reward": "0x1B17dCA4e6e2C2bef9F6d26E5562C711D1189D8d",
+      "Multicall3": "0xEAD273a25c24587353f76a68F6E372Dc6448bf6a",
       "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
       "joinFee": "0.0005"
     }
