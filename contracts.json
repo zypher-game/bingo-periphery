@@ -37,14 +37,6 @@
       "Multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11"
     }
   },
-  "1205": {
-    "network": "GSC Testnet",
-    "release": {
-      "ZkBingoLobby": "0x2f036a12E4793ce4F921D88866418AA1918092fA",
-      "ZkBingoCard": "0x9e746A9B484B820B7d4ABbA21FF6EF284546b22e",
-      "Reward": "0x65b0ec8dc0680020D0B113D411aE87940f71cb77"
-    }
-  },
   "1442": {
     "network": "Polygon zkEVM Testnet",
     "release": {
@@ -86,14 +78,6 @@
       "Multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11"
     }
   },
-  "9527": {
-    "network": "GSC QA",
-    "release": {
-      "ZkBingoLobby": "0x9feb4CAcB91B0D21B5f3988bA8b228753b9de8b4",
-      "ZkBingoCard": "0xCB7d119AE42ad31d9bC5B4506D9D9EE2650845d0",
-      "Reward": "0x0951e6B5D5C22Bedae722941a424Ce5Bdf1A6e35"
-    }
-  },
   "42161": {
     "network": "Arbitrum One",
     "release": {
@@ -121,26 +105,6 @@
       "ZkBingoLobby": "0xb29cAa2cB1fEb7f4cCaa9Dd9B8Ad2022EaCa6EC3",
       "ZkBingoCard": "0xC9108a21e461C71331C1317B38C57DDB8B7B0264",
       "Reward": "0x0a882D83A3d3160A6eF5192f03A79AFC40208BDe",
-      "Multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11"
-    }
-  },
-  "60005": {
-    "network": "Hypr Testnet",
-    "develop": {
-      "ZkBingoCard": "0x94D10e10094374e7A70D9346A0b4daf9cF2d9e51",
-      "ZkBingoLobby": "0x756a91960d8836341fb6EFf98d40Eac2fa28421d",
-      "Reward": "0x1B17dCA4e6e2C2bef9F6d26E5562C711D1189D8d",
-      "Multicall3": "0xEAD273a25c24587353f76a68F6E372Dc6448bf6a",
-      "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
-      "joinFee": "0.0005"
-    }
-  },
-  "80001": {
-    "network": "Mumbai",
-    "release": {
-      "ZkBingoLobby": "0x67623bb515A2AE71278cF89D82e0f3A882761700",
-      "ZkBingoCard": "0xBE9B293a533B4eD165c9e89A05E162d7cdA40ABA",
-      "Reward": "0xB34117892b9CDe8838045115FDA6b535d558efA9",
       "Multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11"
     }
   },
@@ -188,18 +152,6 @@
       "ZkBingoCard": "0x85c00a08358d5602fd7B529AaDd156BBF9710AC2",
       "ZkBingoLobby": "0x4122E927d082247b51d73D27EdF836051c905EC9",
       "Reward": "0x2676cEF85550765fc893A9bd053587a175C32377",
-      "Multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11"
-    }
-  },
-  "534353": {
-    "network": "Scroll Alpha Testnet",
-    "develop": {
-      "date": "2023-08-16T07:29:26.176Z",
-      "chainId": 534353,
-      "deployer": "0x1C0ad2c17E848Fb3ccefEc1b77477bCadDA1d103",
-      "ZkBingoCard": "0x6a056940521dCf81583442ABA3f9F3A0EDf5647C",
-      "ZkBingoLobby": "0x3a7B56735270aB30E486573211E786475A1bF9B5",
-      "Reward": "0x6Ca24199a73D79e944132B9404b72B383196E2EF",
       "Multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11"
     }
   },
