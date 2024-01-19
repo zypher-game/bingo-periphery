@@ -97,6 +97,12 @@
       "Multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11"
     }
   },
+  "9980": {
+    "network": "Combo Mainnet",
+    "release": {
+      "Reward": "0xF63f89f5f6bF0737C4f65e570BF78Ab56bf2030d"
+    }
+  },
   "42161": {
     "network": "Arbitrum One",
     "release": {
