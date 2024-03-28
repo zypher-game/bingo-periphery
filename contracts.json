@@ -100,7 +100,11 @@
   "9980": {
     "network": "Combo Mainnet",
     "release": {
-      "Reward": "0xF63f89f5f6bF0737C4f65e570BF78Ab56bf2030d"
+      "Reward": "0xF63f89f5f6bF0737C4f65e570BF78Ab56bf2030d",
+      "ZkBingoCard": "0x6b1ef0B3d076Adb2399f0B60D5560312991cEE59",
+      "ZkBingoLobby": "0x0868259302676544DD0B8c8d3a1A263B90eb753D",
+      "prizePool": "0x4107Ab006BdF49662286CA70eaD69C5098B378A7",
+      "joinFee": "0.003"
     }
   },
   "42161": {
