@@ -156,6 +156,17 @@
       "joinFee": "0.005"
     }
   },
+  "167009": {
+    "network": "Taiko Hekla",
+    "release": {
+      "ZkBingoCard": "0x4625b409Ba7478F393a4f2A854D6e93df4120eB0",
+      "ZkBingoLobby": "0x6a37Dc46f3aF8907ea9Ece5DeA0d2A2A2fAd65B9",
+      "Reward": "0xF9eD611528e695EF99c7Ca52d55F36b8c2f3C1BE",
+      "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
+      "joinFee": "0.0005",
+      "Multicall3": "0x660681c599cc532EF7A1f264Ba3607a2FEd87Db2"
+    }
+  },
   "421613": {
     "network": "Arbitrum Görli",
     "release": {
