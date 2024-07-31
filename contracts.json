@@ -213,5 +213,15 @@
       "prizePool": "0x84e3683deb7c0f92b12589449c8d49c0a8969584",
       "joinFee": "0.0005"
     }
+  },
+  "2717465680371000": {
+    "develop": {
+      "date": "2024-07-31T07:36:58.582Z",
+      "chainId": 2717465680371000,
+      "deployer": "0x282BB6bE7aD2EC47b3F34E656d53402cA6d240D9",
+      "ZkBingoCard": "0xfEb93faB42F8FFB6924Fc5FE72caFde03A9db277",
+      "ZkBingoLobby": "0x39e931a97f7B869C9e7B30245a9972AC9265DCE7",
+      "Reward": "0x146adc6846722c1A8d33F116e52202Da94D43d6E"
+    }
   }
 }
