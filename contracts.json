@@ -116,6 +116,14 @@
       "joinFee": "0.003"
     }
   },
+  "18880": {
+    "release": {
+      "ZkBingoCard": "0xbcE354A2d9B3b05f315c72D31F7821a397082F28",
+      "ZkBingoLobby": "0x2fFe3eB74576408AbF5E339B621e2BB48466Ede8",
+      "Reward": "0xbAdA2508d30cf81D8c6cb9F093bb03b3D25E85AA",
+      "joinFee": "0.0005"
+    }
+  },
   "42161": {
     "network": "Arbitrum One",
     "release": {
